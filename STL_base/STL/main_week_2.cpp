@@ -3,7 +3,7 @@ using namespace std;
 // 이미 있는 것을 만들지 말기
 // 많은 수의 자료를 처리하기
 
-#define Prac 1
+#define Prac 4
 
 #if Prac == 1
 
@@ -19,7 +19,7 @@ int main()
 	// 가장 큰 값을 찾아 출력한다.
 	// ========================================================
 	random_device rd{};
-	auto A = rd();
+	auto A = rd();	// 이 값은 추적 불가능
 	mt19937 mt{ };
 	// == default_random_engine dre(rd());
 	// == mt19937 mt{ random_device{}()};
@@ -112,6 +112,7 @@ int main()
 	// array = 컴파일 시 유일하게 용량이 정해져 있음 ->    가변이 아님
 	ifstream in{ "int 1000개.txt" };
 	array<int, 1000> arr;
+	// ★★★ array를 파일에서 읽어 초기화 하는 방법 찾아보기
 	if (not in)
 		exit(1);
 	for (int& i : arr)
