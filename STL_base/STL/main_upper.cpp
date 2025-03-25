@@ -1,0 +1,7 @@
+#INCLUDE <IOSTREAM>
+
+INT MAIN()
+{
+	// A B C D E
+	// A B C D E
+}
