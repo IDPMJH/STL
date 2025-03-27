@@ -42,9 +42,6 @@ using namespace std;
 // 정렬한 결과를 앞에서부터 1000개만 화면에 출력하라.
 //========================================================================
 
-const int maxCount = 1'000'0000;
-default_random_engine dre{ random_device{}() };
-uniform_int_distribution<int> uid{ 0, maxCount - 1 };
 
 int sortstandard(const void* a, const void* b)
 {
@@ -71,7 +68,11 @@ public:
 		return p - q;
 	}
 };
+
+const int maxCount = 1'000'0000;
 array<int, maxCount> arr;
+default_random_engine dre{ random_device{}() };
+uniform_int_distribution<int> uid{ 0, maxCount - 1 };
 int main()
 {
 	mystandard ms;
@@ -115,7 +116,7 @@ int main()
 // range-based for loop, filter - include <ranges> ranges::views::take
 // 소수만 출력, 뒤에서  n개 출력, 특정 조건 만족시에만 출력 etc..
 // 
-	for (int e : arr | views::take(3000)) //| views::take(1))
+	for (int e : arr | views::take(1000)) //| views::take(1))
 	{
 		print("{0:8}", e);
 	}
@@ -164,11 +165,11 @@ int main()
 		// 두 인자를 통해 전체 크기, 원소의 크기, 시작 주소를 다 알 수 있다.
 		// 기본 정렬 인자가 존재한다. ( 오름차순 )
 		// default sort : operator< (less operator) 사용
-		//sort(arr.begin(), arr.end());
+		// sort(arr.begin(), arr.end());
 
 		// 정렬에 걸리는 시간 측정, 스톱워치
 		auto start = chrono::high_resolution_clock::now();
-		sort<array<int,maxCount>::iterator>(arr.begin(), arr.end(), compare);
+		sort<array<int, maxCount>::iterator>(arr.begin(), arr.end(), compare);
 		auto end = chrono::high_resolution_clock::now();
 
 		// 기본은 나노
@@ -178,16 +179,9 @@ int main()
 
 	// 내림차순 버전 - ★왜 내림차순 정렬이 더 빠를까?★
 	{
-		for (int& element : arr)
-			element = uid(dre);
-
-		// 정렬
-		// 전제 : Contiguous 메모리여야 한다.
-		// C++20 이후에는 컨셉? 을 이용해 contiquous container인지 판단한다.
-		// 두 인자를 통해 전체 크기, 원소의 크기, 시작 주소를 다 알 수 있다.
-		// 기본 정렬 인자가 존재한다. ( 오름차순 )
-		// default sort : operator< (less operator) 사용
-		//sort(arr.begin(), arr.end());
+		//for (int& element : arr)
+		//	element = uid(dre);
+		shuffle(arr.begin(), arr.end(), dre);
 
 		// 정렬에 걸리는 시간 측정, 스톱워치
 		auto start = chrono::high_resolution_clock::now();
