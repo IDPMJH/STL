@@ -67,7 +67,7 @@ int main()
 
 			long long sum{};
 
-			// 병렬 버전 함수도 찾아보기?
+			// 병렬 버전 함수도 찾아보기? -> reduce
 			sum = accumulate(arr2, arr2 + num, 0LL); // 3번째 인자로 타입을 결정
 			// 직접적인 for 루프를 사용할 때는, 항상 기존 알고리즘을 생각해보자
 			//for (size_t i = 0; i < num; i++)
@@ -101,7 +101,7 @@ void f() noexcept
 	int* p = new int[10] {}; // 0으로 초기화
 
 	// 값을 측정하기
-	cout << "free-stroe의 메모리 주소 - " << p << ", ";
+	cout << "free-store의 메모리 주소 - " << p << ", ";
 	cout << "합계 : " << accumulate(p, p + 10, 0) << endl;
 
 	// 예외
@@ -110,7 +110,7 @@ void f() noexcept
 	// 1. 예외로 인한 실행 불가 - 메모리 누수
 	delete[] p;
 
-	// 2. 시간 경과 후... 이중해제 하는 경우 - 즉시 프로그램 사망(댕글링포인터)
+	// 2. 시간 경과 후... 이중해제 하는 경우 - 즉시 프로그램 사망(댕글링포인터 해제)
 	delete[] p;
 }
 
@@ -214,7 +214,7 @@ int main()
 		out << c;
 	}*/
 
-	// STL -> while과 for를 대신하자, Generic Programming
+	// STL -> while과 for를 대신하기 위한 라이브러리이자, Generic Programming
 	//  이 함수 및 copy() 반드시 살펴볼 것
 	transform(istreambuf_iterator<char>{in}, {},
 		ostreambuf_iterator<char>{out},
