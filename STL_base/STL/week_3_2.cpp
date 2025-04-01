@@ -7,7 +7,7 @@
 // 웬만하면 사용하지 말것.
 using namespace std;
 
-#define Prac 4
+#define Prac 3
 
 #if Prac == 1
 
