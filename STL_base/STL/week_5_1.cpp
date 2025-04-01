@@ -246,6 +246,10 @@ public:
 		return os << dog._id << " " << dog._name << " ";
 	}
 
+	friend istream& operator>>(istream& is, Dog& dog) {
+		return is >> dog._id >> dog._name;
+	}
+
 	int GetNameLength()
 	{
 		return _name.length();
@@ -267,17 +271,21 @@ int main()
 		out << dog;
 	}*/
 
-	ifstream in("Dog 십만마리");
+	ifstream in("Dog 십만마리",ios::binary);
 	if (not in)
 		exit(2);
-	in.read(reinterpret_cast<char*>(arr.data()), sizeof(arr));
+	
+	for (Dog& dog : arr)
+	{
+		in >> dog;
+	}
 
 	cout << arr.back() << endl;
 
 	sort(arr.begin(), arr.end(), [](Dog& a, Dog& b) { return a.GetNameLength() < b.GetNameLength(); });
 
-	/*for (const Dog& dog : arr | views::take(1000))
-		dog.show();*/
+	for (const Dog& dog : arr | views::take(1000))
+		dog.show();
 
 
 	cout << endl;

@@ -4,6 +4,7 @@
 // -> 파일을 binary모드로 열어야 변환이 일어나지 않는다.
 
 //#include "save.h"
+// 
 // 웬만하면 사용하지 말것.
 using namespace std;
 
