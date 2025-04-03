@@ -1,5 +1,5 @@
 #define Prac 8
-// 이전 주제												시험 == 8주 2일 , 4월 24일(30점),				과제 == (30점) - 4월 10일 설명
+// 이전 주제			★★★시험 == 8주 2일 , 4월 24일(30점),	과제 == (30점) - 4월 10일 설명
 // generic - 자료형에 무관한	
 // Callable type : 호출 가능한 타입 - C++에서 ()를 붙여서 호출할 수 있는 모든 것을 Callable이라고 한다, C++의 핵심
 // 모든 것을 대표하는 ★★★funchtion★★★ (include <functional>)
@@ -204,7 +204,11 @@ int main()
 #include <fstream>
 #include <algorithm>
 #include <ranges>
+#include <chrono>
 
+
+
+// ★★★종합적 예제★★★
 // =======================================================================
 //[설명] Dog 10만마리를 다음과 같이 파일 "Dog 십만마리"에 저장하였다.
 // 파일은 다음 코드로 열었다. 
@@ -212,8 +216,8 @@ int main()
 //
 // Dog 객체는 class Dog의 friend함수인 operator<<를 사용하여 저장하였다.
 // 
-// [문제] 이 파일에는 정학하게 10만개의 Dog 객체가 저장되어 있다.
-// 파일에 저장된 Dog객체를 모두 읽어 메모리에 저장하라.
+// [문제] 파일에"Dog 십만마리"에는 정확하게 10만개의 Dog 객체가 저장되어 있다.
+// 파일에 저장된 Dog객체를 모두 읽어 메모리에 저장하라.		==> 저장할 객체의 '수'가 정해져 있음 = Array에 저장
 // 제일 마지막 객체의 정보를 화면에 출력하고 답지에도 출력 내용을 적어라.
 // 모두 몇 개의 객체가 저장되어 있는지 출력하라.
 // 메모리에 저장된 Dog 객체를 멤버 name 길이 기준 오름차순으로 정렬하라.
@@ -239,7 +243,7 @@ public:
 	}
 
 	void show() const {
-		println("{:12} - {}", _id, _name);
+		println("[{:12}] - {}", _id, _name);
 	}
 
 	friend ostream& operator<<(ostream& os, const Dog& dog) {
@@ -250,11 +254,16 @@ public:
 		return is >> dog._id >> dog._name;
 	}
 
-	int GetNameLength()
+	size_t GetNameLength() const // 함수에 const붙이는 거 항상 생각하기
 	{
+		// == name.size() length가 조금 더 자연스러움
 		return _name.length();
 	}
 
+	bool operator<(const Dog& other) const // 함수에 const붙이는 거 항상 생각하라고
+	{
+		return GetNameLength() < other.GetNameLength();
+	}
 private:
 	string	_name;
 	int		_id;
@@ -264,6 +273,7 @@ array<Dog, 100'000> arr;
 
 int main()
 {
+	// 저장한 방식과 동일한 방식으로 연다.
 	/*ofstream out("Dog 십만마리");
 	for (int i = 0; i < 100'000; ++i)
 	{
@@ -271,22 +281,63 @@ int main()
 		out << dog;
 	}*/
 
-	ifstream in("Dog 십만마리",ios::binary);
+	ifstream in("Dog 십만마리", ios::binary);
+	// 반드시 체크할 것
 	if (not in)
-		exit(2);
-	
+	{
+		cout << "Dog 십만마리 - 파일을 열 수 없습니다." << endl;
+		return 20250403;
+	}
+
+	// 이러한 방식이 가능하다. (좋은 건 아님)
+	/*int num{};
+	string name;
+	int count{};
+	while (in >> num >> name)
+	{
+		println("[{:7}] - {:12}{:}", ++count, num, name);
+	}*/
+
+	// 정상적인 코딩
 	for (Dog& dog : arr)
 	{
 		in >> dog;
 	}
 
-	cout << arr.back() << endl;
+	// 클래스의 Getter는 최대한 쉽게 코딩하지말자 - 캡슐화와 어긋남
+	// -> Setter의 경우가 필요한 경우, 클래스를 다시 설계하는 편이 낫다
+	// cout << "제일 마지막 객체의 정보 : "<< arr.back() << endl;
+	arr.back().show();
 
-	sort(arr.begin(), arr.end(), [](Dog& a, Dog& b) { return a.GetNameLength() < b.GetNameLength(); });
+	// 정렬의 경우 sort를 쓴다.
+	cout << "Dog name 길이 기준 오름차순 (ascending oredr) 정렬합니다." << endl;
+	//ranges::sort(arr); https://velog.io/@minsu_lighting--/C20-Range
+	auto start = chrono::high_resolution_clock::now();
+	sort(arr.begin(), arr.end(), [](const Dog& a, const Dog& b) { return a.GetNameLength() < b.GetNameLength(); });
+	auto end = chrono::high_resolution_clock::now();
+	cout << "경과시간(duration)ms - " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms" << endl;
 
-	for (const Dog& dog : arr | views::take(1000))
+	// ★★★sort에 대해
+	// int data에 대해 람다로 오름차순 함수를 작성하지 않아도 되는 이유?
+	// 이미 int는 < 연산자가 있기 때문에 람다 등을 작성하지 않아도 default로 ascendingorder로 정렬
+	// [하지만] 사용자 정의 자료형(class 등)은 < 연산자가 없기 때문에 default 정렬되지 않음
+	// 따라서 함수 객체를 설정해주어도 되지만, < 연산자를 구성(오버로딩)해도 됨.
+	// 이에 따라 < 연산자를 오버로딩 하면, 아래같은 default sort도 가능하다
+
+	// 이미 정렬되어 있기에 시간 측정에 주의할 것
+	auto start2 = chrono::high_resolution_clock::now();
+	sort(arr.begin(), arr.end());
+	auto end2 = chrono::high_resolution_clock::now();
+	cout << "경과시간(duration)ms - " << chrono::duration_cast<chrono::milliseconds>(end2 - start2).count() << "ms" << endl;
+
+	// range-based for 문에서 const와 &는 항상 생각하기, 
+	// auto는 필요한 경우가 아닌 이상 명시적인 타입 활용하기
+	for (const Dog& dog : arr | views::take(1000)) // ranges::views::take(1000) - 원본
 		dog.show();
 
+	// [확인]===========filter의 강력함을 알아보자============
+	//for (const Dog& dog : arr | views::reverse) // 역순 출력
+	//	dog.show();
 
 	cout << endl;
 
