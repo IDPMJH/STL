@@ -1,8 +1,8 @@
-#define Prac 1
+#define Prac 3
 // ★★★시험 == 8주 2일, 4월 24일(30점), 과제 == (30점) - 4월 10일 설명
 
-// 이전 주제	
-// STRING - std::string가 유사한 클래스, STL 표준 컨테이너가 되도록...
+// =================이전 주제=================
+// STRING - std::string가 유사한 클래스, STL 표준 컨테이너가 되도록..
 // C++ 언어
 // 1. OOPL(Objected Oriented Programming Language)	: 특정 자료형만을 위한 Coding
 // 2. Generic PL (Programming Language)				: 자료형과 무관한 자료구조와 알고리즘의 Coding (Template)
@@ -26,71 +26,17 @@
 // Star = a
 // Star b = a 를 하는 경우 대입 연산자 오버로딩이 필요하다. 이후 할당 연산자도 세트로 오버로딩한다.
 // 
-// 이번 주제
+// =================이번 주제=================
+// STRING - std::string가 유사한 클래스, STL 표준 컨테이너가 되도록..
+//	내부 동작을 관찰할 수 있게 하자.
 // 
+//
 
-#include <string>
-#include <iostream>
-#include <memory>
-#include <vector>
 using namespace std;
-
-
-class STRING {
-	// 접근 제한자 (Access Modifier)
-public:
-	STRING(const char* str)
-		:_len{ strlen(str) }
-	{		// []를 -> *로 collapsing 
-		_p.reset();		// lvalue : 등식의 왼쪽 값 -> location value (메모리)
-		_p = make_unique<char[]>(_len);
-
-		memcpy(_p.get(), str, _len);		// DMA (Direct / Dynamic Memory Accesse)
-		// p.get() : 확보한 메모리 주소
-		// p.reset() : 메모리 리셋
-		// p.release() : 메모리 반환
-	}
-
-	size_t size() {
-		return _len;
-	}
-
-
-
-private:
-	size_t _len{};
-	unique_ptr<char[]> _p;		// 생성은 이미 여기서 진행 됨
-	//vector<char> _string;
-
-
-
-
-	friend ostream& operator<<(ostream& os, const STRING& str) {
-		// null캐릭터를 마지막에 넣지 않는 경우에는 for문을 사용..
-		for (int i = 0; i < str._len; ++i)
-			os << str._p[i];
-		return os;
-	}
-};
 
 #if Prac == 1
 #include <iostream>
-
-class Star {
-public:
-	Star() { _child = nullptr; }
-	~Star() {}
-public:
-	Star* _child;
-};
-
-int main()
-{
-	Star a;
-	a._child = new Star();
-}
-
-#elif Prac == 2
+#include "STRING.h"
 
 
 
@@ -102,15 +48,57 @@ int main()
 {
 	STRING s{ "std::string과 유사한 클래스" };
 
-	cout << s.size() << endl; // s가 확보한 자원의 바이트 수
-
+	cout << s.size() << endl;
 	cout << s << endl;
+
+	// 이건 안 되는게 당연함 - 생성자를 우리가 만들었기에, default 생성자를 따로 만들어야 함.
+	STRING t;
+
+	//special한 동작이라 자동 생성되어야 함. 근데 왜 안 될까?
+	//못 만들어주는 이유? - unique_ptr의 기본 대입 연산자가 삭제되어 있기 때문,
+	t = s;
+
+	// 마찬가지로, 삭제되어 있기 때문
+	STRING u = s;
+
+	cout << t << endl;
+	cout << s << endl;
+	cout << u << endl;
+}
+#elif Prac == 2
+
+#include "STRING.h"
+#include <iostream>
+
+STRING s{ "이제 준비가 끝났다" };
+// 관찰하려면 true로 설정
+extern bool inspect = true;
+// =======================================================================
+//[문제] 아래 코딩이 정상적으로 실행되도록 수정
+//========================================================================
+
+int main()
+{
+	cout << "메인 시작" << endl;
+	STRING t = s;
+
+	cout << "이제 소멸할게~ " << endl;
 }
 
 
 #elif Prac == 3
+#include "STRING.h"
+#include <iostream>
+#include <array>
+#include <algorithm>
 
-
+//void swap(STRING& a, STRING& b)
+//{
+//	STRING Temp = a;
+//	a = b;
+//	b = a;
+//}
+extern bool inspect{ false };
 
 // =======================================================================
 //[문제]
@@ -118,7 +106,24 @@ int main()
 
 int main()
 {
+	array<STRING, 5> arr{ "1", "333", "22" , "55555", "4444" };
 
+	// 길이 오름차순 정렬하고 출력하라
+	inspect = true;
+
+	sort(arr.begin(), arr.end(), [](const STRING& a, const STRING& b) {return a.size() < b.size(); });
+
+	inspect = false;
+
+	for (const STRING& str : arr)
+	{
+		cout << str << endl;
+	}
+
+	for (const auto& str : arr)
+	{
+		cout << str << endl;
+	}
 
 }
 
@@ -128,11 +133,16 @@ int main()
 
 
 // =======================================================================
-//[문제]
+//[문제] 다음시간 STRING도 이렇게 동작하게 하자.
 //========================================================================
 
 int main()
 {
+	string s{ "표준 string" };
+	stirng t = move(s);
+
+	cout << s << endl;
+	cout << t << endl;
 
 
 }

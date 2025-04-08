@@ -16,6 +16,9 @@
     <Filter Include="소스 파일\Save">
       <UniqueIdentifier>{19711c49-a1a5-4aff-b134-77779fd19878}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\STRING">
+      <UniqueIdentifier>{caf05b23-b4a2-475c-aa92-e610470910fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="week_2.cpp">
@@ -51,10 +54,16 @@
     <ClCompile Include="week_6_1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="STRING.cpp">
+      <Filter>소스 파일\STRING</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h">
       <Filter>소스 파일\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="STRING.h">
+      <Filter>소스 파일\STRING</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

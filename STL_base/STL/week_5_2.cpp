@@ -44,43 +44,43 @@
 #include <vector>
 using namespace std;
 
-
-class STRING {
-	// 접근 제한자 (Access Modifier)
-public:
-	STRING(const char* str)
-		:_len{ strlen(str) }
-	{		// []를 -> *로 collapsing 
-		_p.reset();		// lvalue : 등식의 왼쪽 값 -> location value (메모리)
-		_p = make_unique<char[]>(_len);
-
-		memcpy(_p.get(), str, _len);		// DMA (Direct / Dynamic Memory Accesse)
-		// p.get() : 확보한 메모리 주소
-		// p.reset() : 메모리 리셋
-		// p.release() : 메모리 반환
-	}
-
-	size_t size() {
-		return _len;
-	}
-
-
-
-private:
-	size_t _len{};
-	unique_ptr<char[]> _p;		// 생성은 이미 여기서 진행 됨
-	//vector<char> _string;
-
-
-
-
-	friend ostream& operator<<(ostream& os, const STRING& str) {
-		// null캐릭터를 마지막에 넣지 않는 경우에는 for문을 사용..
-		for (int i = 0; i < str._len; ++i)
-			os << str._p[i];
-		return os;
-	}
-};
+//
+//class STRING {
+//	// 접근 제한자 (Access Modifier)
+//public:
+//	STRING(const char* str)
+//		:_len{ strlen(str) }
+//	{		// []를 -> *로 collapsing 
+//		_p.reset();		// lvalue : 등식의 왼쪽 값 -> location value (메모리)
+//		_p = make_unique<char[]>(_len);
+//
+//		memcpy(_p.get(), str, _len);		// DMA (Direct / Dynamic Memory Accesse)
+//		// p.get() : 확보한 메모리 주소
+//		// p.reset() : 메모리 리셋
+//		// p.release() : 메모리 반환
+//	}
+//
+//	size_t size() {
+//		return _len;
+//	}
+//
+//
+//
+//private:
+//	size_t _len{};
+//	unique_ptr<char[]> _p;		// 생성은 이미 여기서 진행 됨
+//	//vector<char> _string;
+//
+//
+//
+//
+//	friend ostream& operator<<(ostream& os, const STRING& str) {
+//		// null캐릭터를 마지막에 넣지 않는 경우에는 for문을 사용..
+//		for (int i = 0; i < str._len; ++i)
+//			os << str._p[i];
+//		return os;
+//	}
+//};
 
 #if Prac == 1
 #include <iostream>
