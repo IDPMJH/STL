@@ -12,13 +12,14 @@
 #include <iostream>
 #include <print>
 
-// 2025.04.28
+// 2025.04.08
+// 관찰을 제어하기 위한 변수 추가
 extern bool inspect;
 
 STRING::STRING(const char* str)
 	:_id{ ++gid }
 	, _len{ strlen(str) }
-{		// []를 -> *로 collapsing 
+{
 	_p.reset();		// lvalue : 등식의 왼쪽 값 -> location value (메모리)
 	_p = std::make_unique<char[]>(_len);
 

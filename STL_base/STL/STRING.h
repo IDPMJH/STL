@@ -19,7 +19,7 @@ public:
 	~STRING();									// 2025.04.08 - 코딩할 이유가 전혀 없지만, 관찰을 위해
 
 	// 복사생성과 복사할당
-	STRING(const STRING& other);						//2025.04.08
+	STRING(const STRING& other);				//2025.04.08
 	STRING& operator=(const STRING& other);		//2025.04.08
 
 	// 이동생성과 이동할당
@@ -39,7 +39,6 @@ private:
 	// 2025.04.08
 	static size_t gid;
 
-	// 2025.04.08
-	// 관찰을 제어하기 위한 변수 추가
+
 };
 

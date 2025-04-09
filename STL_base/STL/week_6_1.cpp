@@ -92,12 +92,7 @@ int main()
 #include <array>
 #include <algorithm>
 
-//void swap(STRING& a, STRING& b)
-//{
-//	STRING Temp = a;
-//	a = b;
-//	b = a;
-//}
+
 extern bool inspect{ false };
 
 // =======================================================================
@@ -120,10 +115,12 @@ int main()
 		cout << str << endl;
 	}
 
+	//inspect = true;
 	for (const auto& str : arr)
 	{
 		cout << str << endl;
 	}
+	//inspect = false;
 
 }
 
