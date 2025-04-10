@@ -18,11 +18,13 @@ public:
 	STRING();
 	~STRING();									// 2025.04.08 - 코딩할 이유가 전혀 없지만, 관찰을 위해
 
-	// 복사생성과 복사할당
+	// 복사생성과 복사할당연산자
 	STRING(const STRING& other);				//2025.04.08
 	STRING& operator=(const STRING& other);		//2025.04.08
 
-	// 이동생성과 이동할당
+	// 이동생성과 이동할당연산자						// 2025.04.10
+	STRING(STRING&&);							// && -> rvalue reference
+	STRING& operator=(STRING&&);
 
 	size_t size() const;
 	

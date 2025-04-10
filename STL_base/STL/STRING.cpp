@@ -21,12 +21,13 @@ STRING::STRING(const char* str)
 	, _len{ strlen(str) }
 {
 	_p.reset();		// lvalue : 등식의 왼쪽 값 -> location value (메모리)
-	_p = std::make_unique<char[]>(_len);
+	_p = std::make_unique<char[]>(_len);	// 시스템 콜 -> 불안전함..최대한 사용하지 않기?..
 
 	memcpy(_p.get(), str, _len);		// DMA (Direct / Dynamic Memory Accesse)
-	// p.get() : 확보한 메모리 주소
-	// p.reset() : 메모리 리셋
-	// p.release() : 메모리 반환
+	// C++ reference - SmartPointers
+	// p.get()		: 확보한 메모리 주소
+	// p.reset()	: 메모리 리셋
+	// p.release()	: 메모리(자원)의 소유권 반환
 
 	if (inspect)
 	{
@@ -57,6 +58,42 @@ STRING::~STRING()
 			_id, "소멸자", _len, reinterpret_cast<void*>(this), reinterpret_cast<void*>(_p.get()));
 	}
 }
+
+
+// 이동생성자
+// 2025.04.10
+STRING::STRING(STRING&& other)
+	:_id{++gid}, _len{other._len}
+{
+	// other을 이용해서 생성
+	_p.reset(other._p.release());	// other가 가리키고 있던 자원의 참조 해제 및 반환
+	other._len = 0;
+	if (inspect)
+	 {
+		 std::println("[{:8}] {:16} 자원 수:{:<10} 메모리:{:<12} 자원메모리:{:<12}",
+			 _id, "이동생성자", _len, reinterpret_cast<void*>(this), reinterpret_cast<void*>(_p.get()));
+	 }
+}
+
+// 이동할당연산자
+// 2025.04.10
+STRING& STRING::operator=(STRING&& other)
+{
+	if (this == &other)
+		return *this;
+
+	_len = other._len;
+	_p.release();	// ★★내가 소유한 자원의 참조 해제를 먼저
+	_p.reset(other._p.release());// other._p가 가리키던 자원의 참조를 해제하고, 반환한 참조를 받아옴
+	other._len = 0;
+	if (inspect)
+	{
+		std::println("[{:8}] {:16} 자원 수:{:<10} 메모리:{:<12} 자원메모리:{:<12}",
+			_id, "이동할당연산자", _len, reinterpret_cast<void*>(this), reinterpret_cast<void*>(_p.get()));
+	}
+	return *this;
+}
+
 
 size_t STRING::size() const
 {

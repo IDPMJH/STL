@@ -57,6 +57,9 @@
     <ClCompile Include="STRING.cpp">
       <Filter>소스 파일\STRING</Filter>
     </ClCompile>
+    <ClCompile Include="week_6_2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h">
