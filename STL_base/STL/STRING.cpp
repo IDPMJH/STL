@@ -26,7 +26,7 @@ STRING::STRING(const char* str)
 	memcpy(_p.get(), str, _len);		// DMA (Direct / Dynamic Memory Accesse)
 	// C++ reference - SmartPointers
 	// p.get()		: 확보한 메모리 주소
-	// p.reset()	: 메모리 리셋
+	// p.reset()	: 가리키고 있는 메모리(주소)를 다른 것으로 리셋
 	// p.release()	: 메모리(자원)의 소유권 반환
 
 	if (inspect)
@@ -80,7 +80,7 @@ STRING::STRING(STRING&& other)
 STRING& STRING::operator=(STRING&& other)
 {
 	if (this == &other)
-		return *this;
+		return *this;	// 무의미한 동작 감지
 
 	_len = other._len;
 	_p.release();	// ★★내가 소유한 자원의 참조 해제를 먼저
