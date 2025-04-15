@@ -14,7 +14,7 @@
 
 // 2025.04.08
 // 관찰을 제어하기 위한 변수 추가
-extern bool inspect;
+bool inspect = false;
 
 STRING::STRING(const char* str)
 	:_id{ ++gid }
