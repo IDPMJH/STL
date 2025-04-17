@@ -10,14 +10,16 @@
 // [단어 정리]
 // Container : 규격화된(동일한) 원소를 담는 자료구조(Homogeneouse data type)
 // Algorithm : 정렬, 탐색, 그래프 알고리즘 
-// Adaptor : 기존의 컨테이너 변형 -> 새로운 자료구조를 만들어 낸 것(자료구조나 반복자, 알고리즘에 모두 적용 가능)
+// Adapter : Container adapter는 기존 컨테이너를 변경(modify, adapt)하여 특정 인터페이스(기능)만을 제공하도록 만든 컨테이너를 의미한다
+//	컨테이너 어댑터는 vector, list, deque 등 기존 컨테이너(underlying container)의 인터페이스를 제한하여 특정 기능만을 수행하게끔 만들어진 컨테이너 구현체이다.
 // Predicates: Callable Type, bool값을 return하는 Callable Type
 // FunctionObject: Function call 오퍼레이터[()]를 오버로딩한 클래스 객체
 // Concepts : 추후 소개 template을 만들며서 생기는 문제점을 해결하기 위한 것(C++ 20 제공 핵심 내용)
-// Ranges: Concept와 함께 이용하여 라이브러리를 새로 제작함//ranges::sort() 파악해보기
-// Span : Contiguous 메모리를 쉽게, 가볍게 다루기 위한 도우미 클래스(views)(String view와 같이 메모리 관찰 가능)
+// 어떤 타입이 가져야하는 조건을 정의해 주기 위해 나온 것이 Concept라고 할 수 있다.
+// Ranges: Concept와 함께 이용하여 라이브러리를 새로 제작함		//https://velog.io/@minsu_lighting--/C20-Range
+// Span : contiguous 메모리를 쉽게, 가볍게 다루기 위한 도우미 클래스(views)(String view와 같이 메모리 관찰 가능)
 //
-// {STL Components
+// {STL Components}
 // STL은 컴포넌트(컨테이너[자료구조], 반복자, 알고리즘)의 관계로 구성됨
 // 
 // [컨테이너(자료구조)]
@@ -36,10 +38,13 @@
 //	원소를 가장 빨리 찾는 Container임, 메모리를 희생해서 속도를 얻음.
 // 
 // Container란?
-// C++ Container library: 쉽게 구현할 수 있도록 일반적인 템플릿과 알고리즘을 모아놓은 것
-//	C++표준 N4917 워킹 드래프트에서의 의미:
+// 	C++표준 N4917 워킹 드래프트에서의 의미:
 // Containers are objects that store other objects.
 // "다른 객체를 담을 수 있는 객체", 본인 또한 담을 수 있다는 점이 중요함
+// 
+// C++ Container library: 쉽게 구현할 수 있도록 일반적인 템플릿과 알고리즘을 모아놓은 것
+//
+// [오늘 알아볼 내용]
 // 1. Sequence Containers
 //		array<T,N>
 //		vector<T>
@@ -86,7 +91,7 @@ int main()
 	// STL은 밑의 코드를 쓰지 않는 것을 목표로 한다, 속도 우선.
 	try
 	{
-		cout << a2.at(num);	//★★★★안전 배열로 검색하는 기능★★★★
+		cout << a2.at(num);	//★★★★안전 배열로 검색하는 기능 - Array의 중요 특성★★★★
 	}
 	catch (std::exception& e)
 	{
@@ -130,7 +135,7 @@ int main()
 
 
 	// 알고리즘은 generic하기 때문에,
-	// 자료구조에서 사용하는 일반적인 반복자를 사용하여 access
+	// 각 자료구조에서 사용하는 일반적인 반복자를 사용하여 access
 	// 반복자는 != end(), ++, *등의 오퍼레이터를 지원하기 때문에 generic하게 알고리즘이 사용할 수 있다.
 	/*for (vector<int>::iterator i = v.begin(); i != v.end(); ++i)
 	{
@@ -142,7 +147,7 @@ int main()
 		cout << *i << endl;
 	}
 
-	// c를 붙여서 읽기모드로 얻어오는 것을 표기하는 것은 권장함
+	// c를 붙여서 읽기모드로 얻어오는 것을 명시적으로 나타내는 것은 권장함
 	for (auto i = v.cbegin(); i != v.cend(); ++i)
 	{
 		cout << *i << endl;
@@ -180,8 +185,9 @@ int main()
 	long long sum = accumulate(v.begin(), v.end(), 0LL);
 	sum = reduce(v.begin(), v.end(), 0LL);
 	cout << "합계 - " << sum;
-	//cout << 
-	cout << "평균 - " << static_cast<double>(sum / v.size());
+	
+	size_t size = v.empty() ? 1 : v.size();
+	cout << "평균 - " << static_cast<double>(sum / size);
 
 
 }
