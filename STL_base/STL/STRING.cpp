@@ -11,6 +11,7 @@
 #include <memory>
 #include <iostream>
 #include <print>
+#include <algorithm>
 
 // 2025.04.08
 // 관찰을 제어하기 위한 변수 추가
@@ -92,6 +93,14 @@ STRING& STRING::operator=(STRING&& other)
 			_id, "이동할당연산자", _len, reinterpret_cast<void*>(this), reinterpret_cast<void*>(_p.get()));
 	}
 	return *this;
+}
+
+
+bool STRING::operator==(const STRING& rhs) const
+{
+	// std::equal(시작주소, 끝주소, 비교할 대상의 시작주소)
+	return std::equal(&_p[0], &_p[_len], &rhs._p[0]);
+	
 }
 
 

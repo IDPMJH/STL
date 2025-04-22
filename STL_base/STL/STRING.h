@@ -24,6 +24,9 @@ public:
 	STRING(STRING&&);							// && -> rvalue reference
 	STRING& operator=(STRING&&);
 
+
+	bool operator==(const STRING& rhs) const;
+	
 	size_t size() const;
 	
 
