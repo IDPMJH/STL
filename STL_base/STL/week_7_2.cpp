@@ -1,4 +1,4 @@
-#define Prac 4
+#define Prac 5
 // ★★★시험 == 8주 2일, 4월 24일(30점) ★시험 장소★: E동320호
 // 문제는 4~5문제
 // 
@@ -28,7 +28,7 @@
 // 원하는 위치에 직접 Access해서 read/write 해도 문제 없는 Container
 //	- array : 원소 개수가 절대 변동되지 않음 - 원소 제거 불가능
 //  - vector : data를 동적으로 늘려갈 수 있는 자료구조
-//	- inplace_vector:
+//	- inplace_vector:  런타임에원소 개수가 결정되는 vector
 //	- hive : 
 //  - deque : front/back에서 원소를 추출하기 매우 용이한 구조
 // 2. Associative Containers : Key - Value가 assosiation됨 (set, map)
@@ -75,10 +75,12 @@ int main()
 	// 고급입력작업을 통해 키보드에서 읽어오는 의미
 	vector<std::string> v{ istream_iterator<string>{cin},{} };			// 키보드 입력 시작/끝
 	
+
+	// [문제] 이게 왜 정렬되는가?
 	// 1. v.begin()으로부터 정보(타입, 시작주소 등)을 얻어옴
 	// 2. std::string은 비교연산자 operator<를 기본적으로 지원함 (사전 순)
 	// 이에 의해 <를 사용하는 sort함수에 의해 기본 정렬이 가능하게 된다.
-	// [문제] 이게 왜 정렬되는가?
+	
 	sort(v.begin(), v.end());
 
 	for (const std::string& str : v)
@@ -177,11 +179,12 @@ int main()
 {
 	inspect = true;
 	vector<STRING> v;
-	v.reserve(100);	// 원소 수 예측하기.
+	v.reserve(100);	// 원소 수 예측해서 reserve하는게 지당하다.
 	// STACK - v의 내부구조
 	// v [0] [0] [nullptr]
 
 	//v.push_back(STRING{ "12345" });
+	//v.push_back("12345");	// 이름없는 객체가 생성됨
 	// 인자를 넘길 때 컴파일러가 이렇게 판단
 	// v.push_back(move(STRING{ "12345" }));
 	// v.push_back(static_cast<STRING&&>(STRING{ "12345" }));
@@ -234,18 +237,23 @@ int main()
 	// emplace_back,
 	// 이동생성자로부터 바로 free-store의 메모리에 직접 채움
 	// 이름없는 객체 메모리가 스택에 생성돼서  이동생성자가 실행되냐,
-	// vector가 가질 메모리가 free-store에 생성돼서 실행되냐의 차이?
+	// vector가 가질 메모리가 free-store에 생성돼서 생성자가 실행되냐의 차이?
+	// 메모리 위치는 컴파일러가 결정하는 것이다. 이를 조정하는 것이 emplace_back?
 	// STRING("12345")에서 넘겨주는 this를 통해 free-store의 장소를 안다
 	// 위치에 직접 생성
 	
 	// emplace_back을 쓸 때는, 객체가 만들어지는 코드를 적어선 안 된다.
 	// 재료(인자)만 쓴다.
+	STRING d = "12345";
+	cout << "push_back" << endl;
+	v.push_back(d);
+
+	cout << "emplace_back" << endl;
 	v.emplace_back("12345");
 	
-	//perfect forwarding
+	cout << "main end" << endl;
 	
-
-
+	
 	
 
 	int a = 0;
@@ -253,18 +261,52 @@ int main()
 
 
 #elif Prac == 5
-
-
+#include <iostream>
+#include <utility>
 
 // =======================================================================
-//[문제]
+//[문제] perfect forwarding
+// 
+//lvalue(Left Value)
+//이름과 주소를 가진 객체
+//
+//대입 연산자의 왼쪽에 올 수 있는 표현식
+//
+//함수 호출 후에도 계속 존재하는 객체*/
+//
+//
+//rvalue(Right Value)
+//	임시 객체
+//
+//	이름 없는 객체
+//
+//	주소가 없는 객체*/
 //========================================================================
 
-int main()
-{
 
 
+
+void process(int& lval) {
+	std::cout << "L-value reference" << std::endl;
 }
+
+void process(int&& rval) {
+	std::cout << "R-value reference" << std::endl;
+}
+
+template<typename T>
+void forwarder(T&& arg) {
+	// std::forward를 사용하여 arg의 원래 value category 보존
+	process(std::forward<T>(arg));
+}
+
+int main() {
+	int x = 10;
+	forwarder(x);    // x는 lvalue, "L-value reference" 출력
+	forwarder(10);   // 10은 rvalue, "R-value reference" 출력
+	return 0;
+}
+
 
 
 #endif
