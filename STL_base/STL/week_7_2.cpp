@@ -196,14 +196,14 @@ int main()
 	// capacity가 맞지 않음, 24바이트 들어갈 새로운 저장공간 생성
 	// copy(copy constructor)해서 v의 내부는
 	// v가 가리키는 곳은 [size:5] [ptr:"1,2,3,4,5"] [id:2]
-	// 이름없는 객체는 xvalue, 이걸 rvalue로 컴파일이 인식함, copy가 아닌 move construction을 실행
+	// 이름없는 객체는 xvalue, 이걸 임시객체rvalue로 컴파일이 인식함, copy가 아닌 move construction을 실행
 	
 	// 메모리가 이사가는 동작이 vector에서 가장 기피되는 동작
 	// push_back은 armortized O(1), 무조건 O(1)은 아님
 	// vector의 원소수를 예측해서 v.reserve(); 시키자
 	// 
 	// dynamic 이지만 run-time에 숫자가 결정되는 경우
-	// => inplace_vector - 실행시에 변경점이 일어나지 않을 벡터
+	// => inplace_vector - 실행시에 크기에 변경점이 일어나지 않을 벡터
 
 	// 집가서 그림그리기
 	// stack 주소는 프로그래머가 정할 요소가 아님 컴파일 시 고정되는 객체 - 그래서 이름으로 접근 가능한 것임
@@ -213,7 +213,7 @@ int main()
 	// freestore의 경우에는 주소가 정해질 수 없으니까 이름을 정하지 못함 = ptr로 접근
 	// freestore에 있는 객체는 항상 접근 가능해야 함 - xvalue가 되어선 안 됨
 	// 왜? delete동작을 반드시 해주어야 하기 때문
-	// vector보다 deque가 더욱 큰 최대 용량을 가질 수 있는 이유
+	// vector보다 deque이 더욱 큰 최대 용량을 가질 수 있는 이유
 	// vector는 contiguous 메모리기 때문에 반드시 이어져있어야 함
 	// deque는 linkedlist로 관리하기 때문에 메모리가 이어져 있을 필요 x
 	// deque : vector와 list의 중간
@@ -222,7 +222,7 @@ int main()
 
 	
 	// [emplace_back]
-	// 잘못된 방식
+	// 잘못된 방식 :
 	//v.emplace_back(STRING{"12345" }); // STRING{"12345"}도 Stack에 생성됨
 	// 
 	// 이름없는 객체 : [size:5] [id:1] [ptr] -> "12345"
