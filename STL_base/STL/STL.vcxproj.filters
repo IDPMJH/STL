@@ -19,6 +19,9 @@
     <Filter Include="소스 파일\STRING">
       <UniqueIdentifier>{caf05b23-b4a2-475c-aa92-e610470910fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Testmain">
+      <UniqueIdentifier>{c9502c50-b071-4c8c-bf00-9ab8a9d21675}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="week_2.cpp">
@@ -34,9 +37,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="week_4_1.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="week_4_2.cpp">
@@ -68,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="week_8_1.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일\Testmain</Filter>
+    </ClCompile>
+    <ClCompile Include="main_upper.cpp">
+      <Filter>소스 파일\Testmain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

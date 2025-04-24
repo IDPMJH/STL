@@ -13,7 +13,7 @@
 // Adapter : Container adapter는 기존 컨테이너를 변경(modify, adapt)하여 특정 인터페이스(기능)만을 제공하도록 만든 컨테이너를 의미한다
 //	컨테이너 어댑터는 vector, list, deque 등 기존 컨테이너(underlying container)의 인터페이스를 제한하여 특정 기능만을 수행하게끔 만들어진 컨테이너 구현체이다.
 // Predicates: Callable Type, bool값을 return하는 Callable Type
-// FunctionObject: Function call 오퍼레이터[()]를 오버로딩한 클래스 객체
+// FunctionObject(함수 객체): Function call 오퍼레이터[()]를 오버로딩한 클래스 객체
 // Concepts : 추후 소개 template을 만들며서 생기는 문제점을 해결하기 위한 것(C++ 20 제공 핵심 내용)
 // 어떤 타입이 가져야하는 조건을 정의해 주기 위해 나온 것이 Concept라고 할 수 있다.
 // Ranges: Concept와 함께 이용하여 라이브러리를 새로 제작함		//https://velog.io/@minsu_lighting--/C20-Range
@@ -28,7 +28,7 @@
 //	- array : 원소 개수가 절대 변동되지 않음 - 원소 제거 불가능
 //  - vector : data를 동적으로 늘려갈 수 있는 자료구조
 //	- inplace_vector:
-//	- hive : 
+//	- hive : "삽입/삭제가 빠르고 반복자 안정성이 높은 unordered sequence container"
 //  - deque : front/back에서 원소를 추출하기 매우 용이한 구조
 // 2. Associative Containers : Key - Value가 assosiation됨 (set, map)
 //	키 값을 통해 정렬할 수 있어야 함
@@ -66,7 +66,7 @@ using namespace std;
 //  - In that case, array.begin() == array.end()
 // 
 // Iterator invalidation(반복자 무효화)
-// 정해진 공간을 쓰기 때문에, 반복자가 무효화될 수 없음.(제거 등)
+// 정해진 공간을 쓰기 때문에, 반복자가 무효화될 수 없음.(제거 등에 의해)
 // 
 // 여러 멤버 타입이 있음
 // begin(), cbegin() - constant
@@ -91,7 +91,7 @@ int main()
 	// STL은 밑의 코드를 쓰지 않는 것을 목표로 한다, 속도 우선.
 	try
 	{
-		cout << a2.at(num);	//★★★★안전 배열로 검색하는 기능 - Array의 중요 특성★★★★
+		cout << a2.at(num);	//★★★★안전 배열로 검색하는 기능 - Array의 중요 특성★★★★ - 메모리 해킹 방지
 	}
 	catch (std::exception& e)
 	{
@@ -181,8 +181,10 @@ int main()
 
 	// vector에 키보드 입력부터 마지막까지
 	vector<int> v(istream_iterator<int>{cin}, {});
+	
 
 	long long sum = accumulate(v.begin(), v.end(), 0LL);
+	// ==
 	sum = reduce(v.begin(), v.end(), 0LL);
 	cout << "합계 - " << sum;
 	

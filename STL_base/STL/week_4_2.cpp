@@ -112,7 +112,7 @@ int main()
 //	//cout << arr[i] << " ";
 //	print("{0:8}", arr[i]);
 //}
-//===========================================
+//===========================================★★★★★★★★★★★★★★★
 // range-based for loop, filter - include <ranges> ranges::views::take
 // 소수만 출력, 뒤에서  n개 출력, 특정 조건 만족시에만 출력 etc..
 // 
@@ -173,7 +173,7 @@ int main()
 		auto end = chrono::high_resolution_clock::now();
 
 		// 기본은 나노
-		cout << "경과시간(duration) - " << end - start << endl;
+		cout << "경과시간(duration)ns - " << end - start << endl;
 		cout << "경과시간(duration)ms - " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms" << endl;
 	}
 
@@ -189,7 +189,7 @@ int main()
 		auto end = chrono::high_resolution_clock::now();
 
 		// 기본은 나노
-		cout << "경과시간(duration) - " << end - start << endl;
+		cout << "경과시간(duration)ns - " << end - start << endl;
 		cout << "경과시간(duration)ms - " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms" << endl;
 	}
 
@@ -197,6 +197,23 @@ int main()
 	//for (int num : arr | views::take(takeCount))
 	//	print("{0:8}", num);
 	//cout << endl;
+
+	/*
+	정리:
+	내림차순 정렬이 오름차순 정렬보다 더 빠른 이유는,
+	
+	데이터의 섞임 정도(랜덤성)
+	
+	정렬 알고리즘의 분할 효율
+	
+	CPU 분기 예측과 캐시 활용
+	
+	비교 함수의 (람다)인라인 최적화
+	등 다양한 요인이 복합적으로 작용하기 때문입니다.
+	
+	실험 환경에 따라 결과가 달라질 수 있으므로, 항상 내림차순이 더 빠르다고 단정할 수는 없습니다.
+	*/
+	
 
 }
 

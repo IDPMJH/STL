@@ -1,4 +1,4 @@
-#define Prac 7
+#define Prac 5
 // ★★★시험 == 8주 2일, 4월 24일(30점) ★시험 장소★: E동320호
 // 문제는 4~5문제, 1시간
 // 강의하지 않은 내용을 내지 않음, 모든 자료 허용, 범위는 8주 1일까지
@@ -149,7 +149,7 @@ int main()
 	// - 자료구조 내부 처리 동작이 존재하기 때문(vector의 가변 기능 등)
 	// 그래서 new end 반복자만 반환하고 그건 알아서 처리하도록 맡긴다.
 
-	vector<int> v{ 1, 2, 3, 3, 3,4, 5,6,7 };
+	vector<int> v{ 1, 2, 3, 3, 3, 4, 5, 6, 7 };
 	// idiom
 	v.erase(remove(v.begin(), v.end(), 3), v.end());
 	// ==auto new_end =  remove(v.begin(), v.end(), 3)
@@ -157,12 +157,12 @@ int main()
 
 	// 위와 같은 방식을 간단하게 하여 vector전용 함수가 존재한다.
 	// 근데 이런 건 명시적으로 원칙을 깨는 듯하게 표현된다.
-	// erase(v, 3);
+	// == erase(v, 3);
 
 	// [문제] v에서 홀수를 제거하라
 	// remove에서 조건을 판단(predicate를 사용)하는 경우, remove_if를 사용한다.
 
-	// idiom
+	// idiom - 관용적 코드 패턴
 	v.erase(remove_if(v.begin(), v.end(), [](int a)
 		{
 			return a & 1;

@@ -21,21 +21,21 @@ public:
 	STRING& operator=(const STRING& other);		//2025.04.08
 
 	// 이동생성과 이동할당연산자						// 2025.04.10
-	STRING(STRING&&);							// && -> rvalue reference
-	STRING& operator=(STRING&&);
+	STRING(STRING&&) noexcept;							// && -> rvalue reference
+	STRING& operator=(STRING&&)noexcept;
 
 
 	bool operator==(const STRING& rhs) const;
-	
+
 	size_t size() const;
-	
+
 
 private:
 	size_t _len{};
 	std::unique_ptr<char[]> _p;		// 생성은 이미 여기서 진행 됨
 
 	// 2025.04.08
-	size_t _id;							
+	size_t _id;
 
 	friend std::ostream& operator<<(std::ostream& os, const STRING& str);
 

@@ -1,4 +1,4 @@
-#define Prac 3
+#define Prac 1
 // ★★★시험 == 8주 2일, 4월 24일(30점), 과제 == (30점) - 4월 10일 설명
 // 5월 6일(화) -> 6월 19일(예정)
 // =================이전 주제=================
@@ -15,19 +15,20 @@ using namespace std;
 #if Prac == 1
 #include <iostream>
 
-
-extern bool inspect = true;
+extern bool inspect;
 // =======================================================================
 //[문제] 아래 코딩이 정상적으로 실행되도록 수정
 //========================================================================
 
 int main()
 {
+	inspect = true;
 	//string s{ "표준 string" };
 	//string t = move(s);
 
 	STRING s2{ "마이 스트링" };
-	STRING t2 = move(s2);	// move semantic , std::move 함수는 이동을 수행하지 않는다.
+	STRING t2 = move(s2);	
+	// move semantic , std::move 함수는 이동을 수행하지 않는다.
 	// 그냥 인자로 받은 객체를 우측값으로 변환할 뿐이다.
 	// 자원을 이동당한 객체(s2)의 명칭 : xvalue
 	// C++ value category (cpp reference)
@@ -60,7 +61,7 @@ int main()
 #include <print>
 #include <iostream>
 
-extern bool inspect = true;
+extern bool inspect;
 // =======================================================================
 //[문제]라이브러리 - 많이 쓰는 기능을 다시 쓸 수 있도록 미리 컴파일해둔 코드의 집합, 링크해서 사용함
 // c언어의 라이브러리 - 소스코드가 보이지 않는 기계어의 집합
@@ -69,6 +70,7 @@ extern bool inspect = true;
 
 int main()
 {	
+	inspect = true;
 	
 	array<STRING, 5> a{ "1","333","55555","22","4444" };
 
@@ -78,6 +80,16 @@ int main()
 			return lhs.size() < rhs.size(); 
 		});
 	// 출력
+
+	/*
+	std::sort는 요소의 이동 생성자/이동 할당 연산자를 반복적으로 호출하여 요소들의 위치를 바꿉니다.
+
+	이 과정에서 임시 객체가 이동 생성되고, 기존 객체에 이동 할당이 발생하며, 임시 객체가 소멸됩니다.
+	
+	따라서, 정렬 과정에서 다수의 이동생성자, 이동할당연산자, 소멸자 로그가 출력되는 것이 정상적인 동작입니다.
+	
+	이는 C++11 이후 move semantics를 적극적으로 활용하는 현대 C++ 라이브러리의 표준적인 동작 방식입니다
+	*/
 	
 	// for loop에 auto는 되도록 지양 - const &를 붙이더라도 가독성의 문제 
 	for (const STRING& str : a)	

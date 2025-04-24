@@ -69,6 +69,7 @@ int main()
 	Dog dog;
 	dog();
 	cout << typeid(dog).name() << endl; // class `int __cdecl main(void)'::`2'::Dog -> 메인 함수에서 클래스를 생성한 경우, 람다의 방식과 동일하다.
+	// 본래 호출 방식
 	//dog.operator()();
 
 }
@@ -87,12 +88,12 @@ int main()
 	array<int, 10> a{ 1, 3, 5, 7, 9, 2, 4, 6, 8, 10 };
 	class Dog {
 	public:
-		bool operator()(int a, int b) const	// 함수 내용에서 인자들에 변경사항이 없을 때는 확실히 const를 붙인다.
+		bool operator()(int a, int b) const	// 함수 내용에서 인자들에 변경사항이 없을 때는 확실히 const를 붙인다.☆☆☆☆
 		{
 			return a > b;
 		}
 	};
-	sort(a.begin(), a.end(), Dog{}); // Dog{} == predicate : 조건자, {}이니셜라이저 기호를 쓰는 이유 - ()를 쓰면 operator()인지 생성인지 애매하기 때문
+	sort(a.begin(), a.end(), Dog{}); // Dog{} == predicate : 조건자, {}이니셜라이저 기호를 쓰는 이유 - ()를 쓰면 operator()인지 생성인지 애매하기 때문 - 생성자를 받을 수 있는 이유? Callable Type을 인자로 받음 - 함수 객체, 함수 포인터 등등
 	for (int num : a)
 		cout << num << " ";
 	cout << endl;	// 10 9 8 ... 3 2 1
@@ -103,7 +104,7 @@ int main()
 #include <algorithm>
 
 // =======================================================================
-//[문제] 만약 Prac == 3에서와 달리, Predicate에 Dog만 있다면?
+//[문제] 만약 Prac == 3에서와 달리, Callable Type - Predicate에 Dog만 있다면?
 // 람다를 통해 Dog을 제작할 수 있다.
 //=======================================================================
 
@@ -116,7 +117,7 @@ int main()
 	//public:
 	//	bool operator()(int a, int b) { return a > b; }
 	//};
-	// 실제 코드
+	// 실제 코드 - auto에 커서 대보기
 	auto Dog = [](int a, int b) {
 		return a > b;	// 반환 형식은 추론을 통해 bool로 결정
 		};
@@ -147,7 +148,7 @@ int main()
 	// 함수는 인자 하나만 달라도 타입이 달라지기 때문에 호환될 수 없다. a = b 등
 	void b();
 	//void b( int );
-	void (*a)();
+	void (*a)();	// 함수 포인터 생성
 	// b의 타입과 a의 타입 일치
 	a = b;
 }
@@ -229,7 +230,6 @@ uniform_int_distribution<int> uidName{ 'a', 'z' };
 uniform_int_distribution uidNameLen{ 3,30 };
 uniform_int_distribution uidId{  };
 
-
 class Dog {
 
 public:
@@ -256,7 +256,7 @@ public:
 
 	size_t GetNameLength() const // 함수에 const붙이는 거 항상 생각하기
 	{
-		// == name.size() length가 조금 더 자연스러움
+		// == name.size(), length가 조금 더 자연스러움
 		return _name.length();
 	}
 
@@ -282,6 +282,7 @@ int main()
 	}*/
 
 	ifstream in("Dog 십만마리", ios::binary);
+
 	// 반드시 체크할 것
 	if (not in)
 	{
@@ -305,7 +306,7 @@ int main()
 	}
 
 	// 클래스의 Getter는 최대한 쉽게 코딩하지말자 - 캡슐화와 어긋남
-	// -> Setter의 경우가 필요한 경우, 클래스를 다시 설계하는 편이 낫다
+	// -> Setter을 만드는 경우가 필요한 경우, 클래스를 다시 설계하는 편이 낫다
 	// cout << "제일 마지막 객체의 정보 : "<< arr.back() << endl;
 	arr.back().show();
 
@@ -315,6 +316,7 @@ int main()
 	auto start = chrono::high_resolution_clock::now();
 	sort(arr.begin(), arr.end(), [](const Dog& a, const Dog& b) { return a.GetNameLength() < b.GetNameLength(); });
 	auto end = chrono::high_resolution_clock::now();
+
 	cout << "경과시간(duration)ms - " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms" << endl;
 
 	// ★★★sort에 대해

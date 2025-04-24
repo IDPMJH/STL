@@ -1,3 +1,4 @@
+#define Prac 1
 // 주제
 // smart pointer와 동적할당, RAII
 // 왜 RAII가 중요한가? - 예외 안전성을 보장하기 위해
@@ -15,7 +16,7 @@
 // 
 // 1번과 2번의 차이	  - 메모리 크기가 얼마나 큰가.
 
-#define Prac 4
+
 using namespace std;
 
 #if Prac == 1
@@ -24,7 +25,6 @@ using namespace std;
 #include <array>
 #include <memory>
 #include <numeric>
-
 
 
 // =======================================================================
@@ -46,11 +46,11 @@ int main()
 
 		{
 			// 바로 밑에서 채울 텐데, 초기화 할 이유는 딱히 없음.
-			//shared_ptr<size_t[]> arr;
+			// 스마트 ver. shared_ptr<size_t[]> arr;
 			size_t* arr2;
 			try
 			{
-				//arr = make_shared<size_t[]>(num);
+				//스마트 ver. arr = make_shared<size_t[]>(num);
 				arr2 = new size_t[num];	// free-store의 차이: heap은 void *로 반환한다.
 			}
 			catch (exception& e)
@@ -62,7 +62,7 @@ int main()
 
 
 			// 1부터 채우기
-			//iota(arr.get(), arr.get() + num, 1);
+			//스마트 ver. iota(arr.get(), arr.get() + num, 1);
 			iota(arr2, arr2 + num, 1);
 
 			long long sum{};
@@ -95,7 +95,7 @@ int main()
 //[문제]
 //=======================================================================
 
-void f() noexcept
+void f() // 예외를 발생시키지 않을 경우에 사용 키워드 : noexcept 
 {
 	shared_ptr<int> sp(new int[10], [](int* p) { delete[] p; });
 	int* p = new int[10] {}; // 0으로 초기화
@@ -110,7 +110,8 @@ void f() noexcept
 	// 1. 예외로 인한 실행 불가 - 메모리 누수
 	delete[] p;
 
-	// 2. 시간 경과 후... 이중해제 하는 경우 - 즉시 프로그램 사망(댕글링포인터 해제)
+
+	// 2. 만약 예외가 발생하지 않고, 시간 경과 후... 이중해제 하는 경우 - 즉시 프로그램 사망(댕글링포인터 해제)
 	delete[] p;
 }
 
@@ -124,7 +125,7 @@ int main()
 	catch (int& e)
 	{
 		cout << "예외 발생 : " << e << endl;
-
+		 
 	}
 }
 
@@ -168,7 +169,7 @@ void f()
 	//Dog* p;	
 	//p = new Dog;
 
-	//throw 1;
+	throw 1;
 	//cout << "절대 출력되지 않음" << endl;
 }
 
@@ -190,6 +191,7 @@ int main()
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include "save.h"
 
 // =======================================================================
 //[문제] "main.cpp"의 내용 중에 소문자를 모두 대문자로 바꾸어 
@@ -220,7 +222,7 @@ int main()
 		ostreambuf_iterator<char>{out},
 		[](char c) {return toupper(c); });
 
-	//save_upper("main.cpp");
+	//save("main.cpp");
 
 }
 

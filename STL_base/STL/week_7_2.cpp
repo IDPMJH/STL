@@ -190,7 +190,7 @@ int main()
 	// v.push_back(static_cast<STRING&&>(STRING{ "12345" }));
 	
 	//const STRING& s = v.back();
-	// 이름없는 STRING 객체 생성 [size:5] [ptr] [id:1]	free-store에 5글자 들어갈 메모리를 만들고 그걸 pointing
+	// 이름없는 STRING 객체 생성 [size:5] [ptr] [id:1] 이후 free-store에 5글자 들어갈 메모리를 만들고 그걸 pointing
 	// []에 "1,2,3,4,5" 채움
 	// push_back 실시
 	// capacity가 맞지 않음, 24바이트 들어갈 새로운 저장공간 생성
@@ -239,14 +239,21 @@ int main()
 	// 이름없는 객체 메모리가 스택에 생성돼서  이동생성자가 실행되냐,
 	// vector가 가질 메모리가 free-store에 생성돼서 생성자가 실행되냐의 차이?
 	// 메모리 위치는 컴파일러가 결정하는 것이다. 이를 조정하는 것이 emplace_back?
-	// STRING("12345")에서 넘겨주는 this를 통해 free-store의 장소를 안다
+	// STRING("12345")에서 넘겨주는 생성자this를 통해 free-store의 장소를 안다
 	// 위치에 직접 생성
 	
 	// emplace_back을 쓸 때는, 객체가 만들어지는 코드를 적어선 안 된다.
 	// 재료(인자)만 쓴다.
+
+	cout << "push_back_copy" << endl;
 	STRING d = "12345";
-	cout << "push_back" << endl;
 	v.push_back(d);
+
+	cout << "push_back_move" << endl;
+	v.push_back(std::move(d));	// d는 이동됨, d는 더 이상 사용 불가
+
+	cout << "push_back_move_xvalue" << endl;
+	v.push_back("12345");	// d는 이동됨, d는 더 이상 사용 불가
 
 	cout << "emplace_back" << endl;
 	v.emplace_back("12345");

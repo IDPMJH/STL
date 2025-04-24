@@ -42,29 +42,28 @@ private:
 
 // Ambiguous
 // void change(Dog, Dog);
-// void change(Dog& a, Dog& b); // ->Code segment 기록., 메모리 시작 번지 == 함수이름(실행 - jmp)
+// void change(Dog& a, Dog& b); // ->함수는 Code segment에 기록., 메모리 시작 번지 == 함수이름(실행 - jmp)
 
 // [질문] 도대체 몇 개의 change를 만들면 되겠니?
 // -> C++언어는 도대체 자료형이 몇 개일까? : 몰라
 // -> 코드생성을 자동화하자
+// -> template
 
 // Stack
 // Free Store
 // Code
-
 // template-> 소스코드를 생성하는 코드 
 
 
 
 // cpp, header 분리 이유 
-
 // template코드는 반드시 cpp공개되어야 함
 // cpp코드가 있어야됨
 
 // 템플릿은 선언과 정의를 동시에 해야함.
 // 알고리즘
 // Generic 프로그래밍 - 자료형에 구애받지않는,
-template<class T>
+template<class T> - 3순위
 void change(T& a, T& b)
 {
 	T temp{ a };
@@ -74,10 +73,19 @@ void change(T& a, T& b)
 // 알고리즘함수는 전부 템플릿
 // 자료구조도 마찬가지.
 
-template<>
+// 템플릿 특수화 - 2순위
+template<class Dog>
 void change(Dog& a, Dog& b)
 {
 
+	Dog temp{ a };
+	a = b;
+	b = temp;
+}
+
+// 일반 함수 - 1순위
+void change(Dog& a, Dog& b)
+{
 	Dog temp{ a };
 	a = b;
 	b = temp;
@@ -91,6 +99,11 @@ int main()
 		Dog a{ 1 }, b{ 2 };
 		change(a, b);	// 도대체 어떤 함수를 호출하는 것인가? 
 
+		// 우선순위 탐색
+		// 1. 일반 함수 Dog 타입
+		// 2. 템플릿 특수화 Dog타입
+		// 3. 일반 템플릿
+		// // 아래는 좀 더 찾아봐야 할듯
 		// 1. change(Dog, Dog);
 		// 2. change(Dog& Dog&);
 		// 3. 컴파일러인 내가 만들 순 없을까? -> template
@@ -104,10 +117,10 @@ int main()
 	//	std::cout << a << "," << b << std::endl; // [출력] 2, 1
 	//}
 
-	// name mangling
+	// name mangling - 함수 이름이 같지만 인자가 다를 때 어떻게 구분하나요? 컴파일러가 따로 이름을 구분함
 	//-> change1, change2
 
-	save("main.cpp");
+	//save("main.cpp");
 }
 
 //

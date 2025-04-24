@@ -39,9 +39,11 @@
 // Star b = a 를 하는 경우 대입 연산자 오버로딩이 필요하다. 이후 할당 연산자도 세트로 오버로딩한다.
 
 #include <string>
+#include <string_view>
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 
@@ -81,6 +83,20 @@ private:
 			os << str._p[i];
 		return os;
 	}
+	// 다양한 방법
+	/*friend std::ostream& operator<<(std::ostream& os, const STRING& str) {
+		for (char ch : std::string_view(str._p.get(), str._len))
+			os << ch;
+		return os;
+	}
+	friend std::ostream& operator<<(std::ostream& os, const STRING& str) {
+		std::copy(str._p.get(), str._p.get() + str._len, std::ostream_iterator<char>(os));
+		return os;
+	}
+	friend std::ostream& operator<<(std::ostream& os, const STRING& str) {
+		os << std::string(str._p.get(), str._len);
+		return os;
+	}*/
 };
 
 #if Prac == 1

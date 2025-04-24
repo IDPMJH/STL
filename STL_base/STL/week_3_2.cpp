@@ -7,7 +7,7 @@
 // 웬만하면 사용하지 말것.
 using namespace std;
 
-#define Prac 3
+#define Prac 4
 
 #if Prac == 1
 
@@ -30,14 +30,16 @@ int main()
 	if (not in)
 	{
 		cout << "파일을 열 수 없습니다." << endl;
-		exit(1);
+		return 1;
 	}
 	array<int, 100'000> arr{};
 
-	in.read(reinterpret_cast<char*>(arr.data()), sizeof(int) * arr.size());
-
-	// 최대 최소를 알아내기	위해 max_element, min_element 사용 -> 두번
-	// ★ 최대 최소를 알아내기	위해 minmax_element 사용 -> 한번
+	//in.read(reinterpret_cast<char*>(arr.data()), sizeof(int) * arr.size());
+	 in.read(reinterpret_cast<char*>(arr.data()), sizeof(arr)); // 이 방법도 가능
+	
+	 
+	 // 최대 최소를 알아내기	위해 max_element, min_element 사용 -> 두번
+	// ★ 최대 최소를 동시에 알아내기	위해 minmax_element 사용 -> 한번
 	int max = {};
 	int min = {};
 	// ★ structured binding	auto의 사용법 - 가독성 향상
@@ -59,7 +61,7 @@ int main()
 #include <fstream>
 #include <array>
 
-// Dog 만마리를 생성하여 파일에 저장(write), 메모리에 읽어와서 처리(정렬)
+// Dog 십만마리를 생성하여 파일에 저장(write), 메모리에 읽어와서 처리(정렬)
 
 // 변동 될 가능성이 없는 경우에는 무조건 array를 사용하자. (inplace_vector가 나올 시(c++26) 고려할 것)
 
@@ -76,7 +78,7 @@ class Dog {
 public:
 	Dog() {		// name(15글자 고정, 임의의 소문자)과 id를 초기화(
 		_id = ++_sid;	// 생성시 1씩 증가하는 static 정수
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 8; ++i)
 		{
 			_name += uid(dre);
 		}
@@ -92,26 +94,31 @@ public:
 
 private:
 	string	_name{};	// 32
-	int		_id{};	// 4 -> 36 bytes, 4 bytes padding => 40bytes
+	unsigned int		_id{};		// 4 -> 36 bytes, 4 bytes padding => 40bytes
+	int a;
 
-	static int _sid;	// padding을 차지함, scope - local, life time - global
+	static unsigned int _sid;	// scope - local, life time - global(메모리 : Data segment에 존재)
 };
 
-int Dog::_sid{};	// 초기화
+unsigned int Dog::_sid{};	// 초기화
+
+
 
 int main()
 {
-	ofstream out{ "Dog 10만 마리",ios::binary };
+	ofstream out{ "Dog 10만 마리",ios::binary | ios::trunc};
 	if (not out)
 	{
 		cout << "파일을 열 수 없습니다." << endl;
-		exit(1);
+		return (1);
 	}
-	for (int i = 0; i < 100'000; ++i)
+	for (int i = 0; i < 100000; ++i)
 	{
 		Dog dog;
 		out.write(reinterpret_cast<char*>(&dog), sizeof(Dog));
 	}
+
+	
 
 	// 파일을 읽어서 메모리에 저장
 	ifstream in{ "Dog 10만 마리",ios::binary };
@@ -120,17 +127,28 @@ int main()
 		cout << "파일을 열 수 없습니다." << endl;
 		exit(1);
 	}
-	/*array<Dog, 100'000> arr;
+	
+	unique_ptr<array<Dog, 100000>> arr = make_unique<array<Dog, 100000>>();	// 메모리 할당
 
-	in.read(reinterpret_cast<char*>(arr.data()), sizeof(Dog) * arr.size());
+	//in.read(reinterpret_cast<char*>(arr->data()), sizeof(Dog) * arr->size());
+	// arr->data()는 실제 Dog 객체 배열의 시작 주소
 
-	for (const Dog& dog : arr)
+	//for (Dog& dog : *arr)
+	//{
+	//	in.read(reinterpret_cast<char*>(&dog), sizeof(Dog));
+	//}
+	// ??????????????????????????이거 왜ㅑ이럼ㅇ젭잘비;즗비ㅏㅎ
+
+
+
+
+	/*for (const Dog& dog : *arr)
 	{
 		dog.show();
 	}*/
 
-
-
+	arr->front().show();
+	arr->back().show();
 }
 
 
@@ -170,7 +188,7 @@ array<Dog, 100'000> Dogs;
 int main()
 {
 	// 2. array* ver
-	// array<Dog, 100'000>* Dogs = new array<Dog,100'000> ;
+	array<Dog, 100'000>* Dogs2 = new array<Dog,100'000> ;
 
 	ifstream in{ "Dog 10만 마리",ios::binary };
 	if (not in)
@@ -183,14 +201,14 @@ int main()
 	// 1 .전역 변수 ver
 	in.read(reinterpret_cast<char*>(Dogs.data()), sizeof(Dogs));
 	// 2. array* ver
-	//in.read(reinterpret_cast<char*>(Dogs), sizeof(Dog) * (*Dogs).size());
+	in.read(reinterpret_cast<char*>(Dogs2->data()), sizeof(Dog) * Dogs2->size());
 
 
 	// 1 .전역 변수 ver
 	cout << Dogs.back();
-	cout << Dogs.front();
+	
 	// 2. array* ver
-	// cout << Dogs->back();
+	 cout << Dogs2->back();
 }
 
 #elif Prac == 4

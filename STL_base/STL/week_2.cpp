@@ -20,7 +20,9 @@ int main()
 	// ========================================================
 	random_device rd{};
 	auto A = rd();	// 이 값은 추적 불가능
+	int B = rd();	// 이 값은 추적 불가능
 	mt19937 mt{ };
+	// mt19937 mt{ random_device{}() };	// 이 값은 추적 가능
 	// == default_random_engine dre(rd());
 	// == mt19937 mt{ random_device{}()};
 	uniform_int_distribution<int> id{ 0, 999'9999 };
@@ -53,7 +55,7 @@ int main()
 	//	========================================================
 
 	//	std::print
-	//{: N} N칸에 제시된 자리의 마지막에  갖다 놓음(오른쪽 정렬)
+	//{: N} N칸만큼 제시된 자리의 마지막에  갖다 놓음(오른쪽 정렬)
 	//{:<N} : 왼쪽 정렬
 	//{:^N} : 가운데 정렬
 	//{:.N} : 소수점 N자리까지 출력
@@ -62,7 +64,7 @@ int main()
 	// {0:o} : 8진수...
 	// print("{:^80}", 20250311);
 
-	mt19937 mt{ };
+	default_random_engine dre{ };
 	uniform_int_distribution<int> id{ 0, 999'9999 };
 
 	//그냥 열면 텍스트 모드, 두번째 인자에ios::binary : 바이너리 모드
@@ -72,8 +74,8 @@ int main()
 	// Dellmiter : 구문문자
 	for (int i = 0; i < 1000; ++i)
 	{
-		print(out, "{:8}", id(mt));
-		if (not(++cnt % 10))
+		print(out, "{:8}", id(dre));
+		if (not(++cnt % 10))	// 10개마다 줄바꿈
 			out << endl;
 	}
 }
@@ -91,10 +93,27 @@ int main()
 	// ========================================================
 	ifstream in{ "int 1000개.txt" };
 	if (not in)
-		exit(1);
+		return(1);
 	
 	// iterator adaptor : stream iterator
 	print("최댓값 : {}\n",*max_element(istream_iterator<int>{in}, {}));
+
+	//파일 크기 예상 계산
+	//	1. 각 숫자의 출력 형식 분석
+	//	print(out, "{:8}", id(dre)) 형식으로 출력합니다.
+	//{:8}은 최소 8자리 너비로 오른쪽 정렬하여 출력하는 형식입니다.
+	//	즉, 각 숫자는 최소 8바이트를 차지합니다.
+	//	숫자가 8자리 미만이면 앞에 공백이 채워집니다.
+	// 
+	//	2. 줄바꿈 문자 계산
+	//	10개마다 줄바꿈을 하므로 총 100번의 줄바꿈이 있습니다.
+	//	Windows 환경에서는 줄바꿈이 \r\n으로 2바이트입니다.
+	//	따라서 줄바꿈에 필요한 바이트 : 100 × 2 = 200바이트
+	// 
+	//	3. 총 파일 크기 계산
+	//	숫자 데이터 : 1000개 × 8바이트 = 8, 000바이트
+	//	줄바꿈 : 100개 × 2바이트 = 200바이트
+	//	총 예상 크기 : 8, 000 + 200 = 8, 200바이트
 }
 	
 
@@ -115,11 +134,21 @@ int main()
 	// ★★★ array를 파일에서 읽어 초기화 하는 방법 찾아보기
 	if (not in)
 		exit(1);
-	for (int& i : arr)
-	{
-		in >> i;
-		print("{:8}", i);
-	}
+	// 1. for문을 사용
+	//for (int& i : arr)
+	//{
+	//	in >> i;
+	//	print("{:8}", i);
+	//}
+	// 2. copy_n을 사용 (copy와 차이점) ★★★
+	// std::copy[first, last, dest.begin()) 범위의 모든 요소를 복사
+	// std::copy_n[first, n, dest.begin()] n개를 복사
+	//std::copy_n(std::istream_iterator<int>{in}, arr.size(), arr.begin());
+
+	// 3. generate 사용
+	//std::generate(arr.begin(), arr.end(), [&in]() {int i; in >> i; return i; });
+
+	// 2번 방식이 코드 간결성, 표준/가독성 면에서 우수함
 
 	sort(arr.begin(), arr.end());
 

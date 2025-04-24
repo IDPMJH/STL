@@ -21,7 +21,7 @@ STRING::STRING(const char* str)
 	:_id{ ++gid }
 	, _len{ strlen(str) }
 {
-	_p.reset();		// lvalue : 등식의 왼쪽 값 -> location value (메모리)
+	_p.reset();		// lvalue : 등식의 왼쪽 값 -> location value (메모리) -> 안해도 되는 거 같긴 한데 잘 모르겠다;
 	_p = std::make_unique<char[]>(_len);	// 시스템 콜 -> 불안전함..최대한 사용하지 않기?..
 
 	memcpy(_p.get(), str, _len);		// DMA (Direct / Dynamic Memory Accesse)
@@ -61,9 +61,23 @@ STRING::~STRING()
 }
 
 
+
+
+/*
+move semantics는 C++11에서 도입된 개념으로, 객체의 리소스를 복사하지 않고 "이동"하는 방식을 의미합니다.
+
+기존의 복사(copy semantics)는 객체의 모든 데이터를 새 객체에 복제하지만, move semantics는 소유권(리소스 포인터 등)만 넘기고 원본은 비워 두는 방식입니다.
+
+이로써 불필요한 메모리 복사와 할당을 줄여 성능을 크게 높일 수 있습니다.
+
+move semantics를 위해 C++11에는 rvalue reference(T&&), move constructor, move assignment operator가 도입되었습니다.
+
+대표적으로 std::move 함수는 객체를 rvalue로 캐스팅하여 move semantics를 활성화합니다.
+*/
+
 // 이동생성자
 // 2025.04.10
-STRING::STRING(STRING&& other)
+STRING::STRING(STRING&& other) noexcept
 	:_id{++gid}, _len{other._len}
 {
 	// other을 이용해서 생성
@@ -78,14 +92,14 @@ STRING::STRING(STRING&& other)
 
 // 이동할당연산자
 // 2025.04.10
-STRING& STRING::operator=(STRING&& other)
+STRING& STRING::operator=(STRING&& other)noexcept
 {
 	if (this == &other)
 		return *this;	// 무의미한 동작 감지
 
 	_len = other._len;
-	_p.release();	// ★★내가 소유한 자원의 참조 해제를 먼저
-	_p.reset(other._p.release());// other._p가 가리키던 자원의 참조를 해제하고, 반환한 참조를 받아옴
+	_p.release();	// ★★내가 소유한 자원의 참조 해제를 먼저, 그렇지 않고 먼저 다른 자원을 받으면 해제할 수 없음
+	_p.reset(other._p.release());// other._p가 가리키던 자원의 참조를 해제하고, 반환한 참조를 받아와 소유함
 	other._len = 0;
 	if (inspect)
 	{
@@ -111,7 +125,7 @@ size_t STRING::size() const
 
 
 // 2025.04.08
-
+// 복사생성자
 STRING::STRING(const STRING& other)
 	:_id{ ++gid }
 	, _len(other._len) // 유의할 점 : , 를 통해  생성할 때, 순서가 보장되지 않음을 유의하자.
@@ -127,6 +141,7 @@ STRING::STRING(const STRING& other)
 }
 
 // 2025.04.08
+// 복사할당연산자
 STRING& STRING::operator=(const STRING& other)
 {
 	// 무의미한 동작 감지
@@ -140,7 +155,7 @@ STRING& STRING::operator=(const STRING& other)
 
 	// 깊은 복사
 	_p = std::make_unique<char[]>(_len);
-	memcpy(_p.get(), other._p.get(), _len);
+	memcpy(_p.get(), other._p.get(), _len);		// DMA (Direct / Dynamic Memory Accesse)
 
 	if (inspect)
 	{

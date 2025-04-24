@@ -33,7 +33,7 @@
 //
 
 using namespace std;
-
+extern bool inspect;
 #if Prac == 1
 #include <iostream>
 #include "STRING.h"
@@ -72,14 +72,16 @@ int main()
 
 STRING s{ "이제 준비가 끝났다" };
 // 관찰하려면 true로 설정
-extern bool inspect = true;
+
 // =======================================================================
 //[문제] 아래 코딩이 정상적으로 실행되도록 수정
 //========================================================================
 
 int main()
 {
+	inspect = true;
 	cout << "메인 시작" << endl;
+	// 복사 생성자
 	STRING t = s;
 
 	cout << "이제 소멸할게~ " << endl;
@@ -93,7 +95,7 @@ int main()
 #include <algorithm>
 
 
-extern bool inspect{ false };
+
 
 // =======================================================================
 //[문제]
@@ -127,7 +129,7 @@ int main()
 
 #elif Prac == 4
 
-
+#include <iostream>
 
 // =======================================================================
 //[문제] 다음시간 STRING도 이렇게 동작하게 하자.
@@ -136,7 +138,7 @@ int main()
 int main()
 {
 	string s{ "표준 string" };
-	stirng t = move(s);
+	string t = move(s);
 
 	cout << s << endl;
 	cout << t << endl;
