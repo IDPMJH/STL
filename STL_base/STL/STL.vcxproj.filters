@@ -75,6 +75,9 @@
     <ClCompile Include="main_upper.cpp">
       <Filter>소스 파일\Testmain</Filter>
     </ClCompile>
+    <ClCompile Include="..\목78\2025_1Exam.cpp">
+      <Filter>소스 파일\Testmain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h">
