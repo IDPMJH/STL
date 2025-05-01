@@ -39,6 +39,8 @@ private:
 
 	friend std::ostream& operator<<(std::ostream& os, const STRING& str);
 
+	friend std::istream& operator>>(std::istream& is, STRING& str);
+
 	// 2025.04.08
 	static size_t gid;
 

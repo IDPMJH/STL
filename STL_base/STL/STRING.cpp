@@ -2,7 +2,8 @@
 // STRING.h - std::string가 유사한 클래스이다.
 // STL의 container 로 동작할 수 있게 코딩해 나간다.
 // 2025.04.08 - 시작
-// 
+// 2025.03.10 - 이동생성과 이동할당연산자 오버로딩
+// 2025.05.01 - >> 연산자 오버로딩
 // 
 // ===============================================================
 
@@ -172,5 +173,18 @@ std::ostream& operator<<(std::ostream& os, const STRING& str)
 		os << str._p[i];
 	return os;
 }
+
+std::istream& operator>>(std::istream& is, STRING& str)
+{
+	// 편법이고, 나중에 기말 시험에 문제 출제 가능 (STRING 읽어오기 등)
+	std::string s;
+	is >> s;
+	str._len = s.length();
+	str._p = std::make_unique<char[]>(str._len);
+	str._p.reset(s.data());
+	return is;
+	//is.read(str._p.get(), str._len);
+}
+
 
 size_t STRING::gid{};

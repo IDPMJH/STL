@@ -21,6 +21,7 @@ extern bool inspect;
 
 // =======================================================================
 // [문제] vector erase 시 그림 그려라 ★★★★★★
+// 혹은 emplace_back시?
 //========================================================================
 
 int main()
@@ -138,6 +139,7 @@ int main()
 #elif Prac == 3
 #include <iostream>
 #include <list>
+#include <vector>
 #include <algorithm>
 #include <ranges>
 
@@ -149,13 +151,17 @@ int main()
 {
 	inspect = true;
 	list<STRING> cont{"1","22", "333", "4444", "55555"};
+	vector<STRING> v{ "1","22", "333", "4444", "55555" };
+	vector<string> v3{ "1","22", "333", "4444", "55555" };
+	vector<int> v2{ 1,2,3,4,5,3 };
 	// id 6~ 10 까지가 실질적으로 리스트에 들어가있는 객체임
 	inspect = false;
 
 	// 할 수 없는 동작 (list이기 때문에)
 	// sort(cont.begin(),cont.end()) 빨간줄은 안 뜨지만, 이는 컴파일 전에 컨테이너가 뭔지 몰라서 그럼
-	ranges::sort(cont);
-	ranges::sort(cont.begin());
+	ranges::sort(v2);
+	//ranges::sort(v3);
+	//ranges::sort(cont.begin());
 	for (const STRING& s : cont)
 		cout << s << endl;
 
