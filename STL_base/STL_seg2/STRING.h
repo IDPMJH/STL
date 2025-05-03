@@ -4,7 +4,6 @@
 // STRING.h - std::string가 유사한 클래스이다.
 // STL의 container 로 동작할 수 있게 코딩해 나간다.
 // 2025.04.08 - 시작
-// 2025.05.01 - >> 연산자 오버로딩
 // ===============================================================
 #pragma once
 #include <memory>
@@ -21,12 +20,11 @@ public:
 	STRING(const STRING& other);				//2025.04.08
 	STRING& operator=(const STRING& other);		//2025.04.08
 
-	// 이동생성과 이동할당연산자					// 2025.04.10
-	STRING(STRING&&) noexcept;					// && -> rvalue reference
+	// 이동생성과 이동할당연산자						// 2025.04.10
+	STRING(STRING&&) noexcept;							// && -> rvalue reference
 	STRING& operator=(STRING&&)noexcept;
 
 
-	// 관계 연산자들
 	bool operator==(const STRING& rhs) const;
 
 	size_t size() const;
@@ -40,7 +38,9 @@ private:
 	size_t _id;
 
 	friend std::ostream& operator<<(std::ostream& os, const STRING& str);
+
 	friend std::istream& operator>>(std::istream& is, STRING& str);
+
 	// 2025.04.08
 	static size_t gid;
 

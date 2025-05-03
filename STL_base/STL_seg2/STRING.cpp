@@ -2,13 +2,13 @@
 // STRING.h - std::string가 유사한 클래스이다.
 // STL의 container 로 동작할 수 있게 코딩해 나간다.
 // 2025.04.08 - 시작
-// 2025.03.10 - 이동생성과 이동할당연산자 오버로딩
-// 2025.05.01 - >> 연산자 오버로딩
+// 
 // 
 // ===============================================================
 
 
 #include "STRING.h"
+#include <string>
 #include <memory>
 #include <iostream>
 #include <print>
@@ -110,12 +110,13 @@ STRING& STRING::operator=(STRING&& other)noexcept
 	return *this;
 }
 
-
+// 2025 04.22 관계 연산자들
 bool STRING::operator==(const STRING& rhs) const
 {
-	// std::equal(시작주소, 끝주소, 비교할 대상의 시작주소)
-	return std::equal(&_p[0], &_p[_len], &rhs._p[0]);
-	
+	// std::equal(시작주소, 끝주소, 비교할 대상의 시작주소) -> 인자가 무엇을 의미하는지 파악하자.
+
+
+	return std::equal(&_p[0], &_p[_len], &rhs._p[0], &rhs._p[rhs._len]);
 }
 
 
@@ -180,11 +181,17 @@ std::istream& operator>>(std::istream& is, STRING& str)
 	std::string s;
 	is >> s;
 	str._len = s.length();
+	str._p.release();
 	str._p = std::make_unique<char[]>(str._len);
-	str._p.reset(s.data());
+
+	// unique 포인터 끼리 동작하는 방식이기에 이렇게 하면 안 됨
+	// - 지역 객체의 메모리의 번지를 가져온 거임
+	// str._p.reset(s.data());
+	memcpy(str._p.get(), s.data(),str._len);
 	return is;
 	//is.read(str._p.get(), str._len);
 }
+
 
 
 size_t STRING::gid{};
