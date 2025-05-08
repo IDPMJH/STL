@@ -1,11 +1,11 @@
-#define Prac = 1
+#define Prac 1
 
 #include "STRING.h"
 
 using namespace std;
 extern bool inspect;
 
-#ifdef  Prac == 1
+#if  Prac == 1
 
 #include <iostream>
 

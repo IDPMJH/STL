@@ -4,6 +4,8 @@
 // STRING.h - std::string가 유사한 클래스이다.
 // STL의 container 로 동작할 수 있게 코딩해 나간다.
 // 2025.04.08 - 시작
+// >> 연산자 2025 05 01
+// < 연산자 2025 05 08
 // ===============================================================
 #pragma once
 #include <memory>
@@ -26,7 +28,7 @@ public:
 
 
 	bool operator==(const STRING& rhs) const;
-
+	bool operator<(const STRING& rhs) const;	// 2025 05 08
 	size_t size() const;
 
 

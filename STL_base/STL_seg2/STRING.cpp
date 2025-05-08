@@ -119,6 +119,13 @@ bool STRING::operator==(const STRING& rhs) const
 	return std::equal(&_p[0], &_p[_len], &rhs._p[0], &rhs._p[rhs._len]);
 }
 
+bool STRING::operator<(const STRING& rhs) const
+{
+	// (&_p[0], &_p[_len], &rhs._p[0], &rhs._p[rhs._len]) == 
+	return std::lexicographical_compare(_p.get(), _p.get() + _len,
+		rhs._p.get(), rhs._p.get() + rhs._len);
+}
+
 
 size_t STRING::size() const
 {
