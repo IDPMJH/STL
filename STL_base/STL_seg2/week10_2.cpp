@@ -215,6 +215,10 @@ int main()
 // std::function<T> == 모든 callable타입(함수 포인터, 람다, 함수 객체)
 // 을 대표하는 callable 타입
 // 그렇다면 contiguous메모리 컨테이너를 대표하는 타입 => "span"
+// contiguous한 sequence라면 다 reference할 수 있음
+// 동적 컨테이너도 span 할 수 있음
+// 들어는 본 적은 있다 정도?
+
 template <class T>
 void f(span<int> s)
 {
