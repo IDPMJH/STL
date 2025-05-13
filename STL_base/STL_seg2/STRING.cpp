@@ -1,5 +1,5 @@
 // ===============================================================
-// STRING.h - std::string가 유사한 클래스이다.
+// STRING.cpp - std::string가 유사한 클래스이다.
 // STL의 container 로 동작할 수 있게 코딩해 나간다.
 // 2025.04.08 - 시작
 // 
@@ -79,16 +79,16 @@ move semantics를 위해 C++11에는 rvalue reference(T&&), move constructor, move as
 // 이동생성자
 // 2025.04.10
 STRING::STRING(STRING&& other) noexcept
-	:_id{++gid}, _len{other._len}
+	:_id{ ++gid }, _len{ other._len }
 {
 	// other을 이용해서 생성
 	_p.reset(other._p.release());	// other가 가리키고 있던 자원의 참조 해제 및 반환
 	other._len = 0;
 	if (inspect)
-	 {
-		 std::println("[{:8}] {:16} 자원 수:{:<10} 메모리:{:<12} 자원메모리:{:<12}",
-			 _id, "이동생성자", _len, reinterpret_cast<void*>(this), reinterpret_cast<void*>(_p.get()));
-	 }
+	{
+		std::println("[{:8}] {:16} 자원 수:{:<10} 메모리:{:<12} 자원메모리:{:<12}",
+			_id, "이동생성자", _len, reinterpret_cast<void*>(this), reinterpret_cast<void*>(_p.get()));
+	}
 }
 
 // 이동할당연산자
@@ -130,6 +130,28 @@ bool STRING::operator<(const STRING& rhs) const
 size_t STRING::size() const
 {
 	return _len;
+}
+
+char* STRING::begin() const
+{
+	return _p.get();	// == return &_p[0];
+}
+
+char* STRING::end() const
+{
+	return _p.get() + _len; // == return &_p[_len];
+}
+
+STRING_Reverse_Iterator STRING::rbegin() const
+{
+	return STRING_Reverse_Iterator{ _p.get() + _len };
+}
+
+STRING_Reverse_Iterator STRING::rend() const
+{
+	return _p.get();
+	// 같은 의미이다. return STRING_Reverse_Iterator{ _p.get() };
+
 }
 
 
@@ -194,7 +216,7 @@ std::istream& operator>>(std::istream& is, STRING& str)
 	// unique 포인터 끼리 동작하는 방식이기에 이렇게 하면 안 됨
 	// - 지역 객체의 메모리의 번지를 가져온 거임
 	// str._p.reset(s.data());
-	memcpy(str._p.get(), s.data(),str._len);
+	memcpy(str._p.get(), s.data(), str._len);
 	return is;
 	//is.read(str._p.get(), str._len);
 }
@@ -202,3 +224,4 @@ std::istream& operator>>(std::istream& is, STRING& str)
 
 
 size_t STRING::gid{};
+

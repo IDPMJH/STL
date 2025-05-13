@@ -24,16 +24,16 @@
     <ClCompile Include="Template.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="week9_1.cpp">
+    <ClCompile Include="Week9_1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Wweek9_2.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="week10_2.cpp">
+    <ClCompile Include="Week10_2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Week11_1.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Week9_2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
