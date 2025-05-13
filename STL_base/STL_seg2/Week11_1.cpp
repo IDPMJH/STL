@@ -5,8 +5,8 @@
 // Container <= [Iterator] => Alogrithm
 // 반복자를 알아야 컨테이너와 알고리즘의 상호작용을 알 수 있다.
 // Sequence  
-//	- array	] => span<T> 로 레퍼런싱 가능
-//	- vector]
+//	- array		] => span<T> 로 레퍼런싱 가능
+//	- vector	]
 //	- deque
 //	- list
 //	- forward_list
@@ -42,7 +42,7 @@ extern bool inspect;
 
 int main()
 {
-	std::string s { "2025 5 13" };
+	std::string s{ "2025 5 13" };
 	for (const char c : s)
 		cout << c;
 	cout << endl;
@@ -58,9 +58,9 @@ int main()
 	{
 		cout << *c;
 	}*/
-	cout <<  endl;
-	
-	
+	cout << endl;
+
+
 }
 
 #elif Prac == 2
@@ -82,6 +82,7 @@ int main()
 	// 실제 포인터와 동일하게 동작한다.
 	// 그리고 포인터와 동일하게 동작하는 것처럼 보이도록 적는 것이
 	// uniform manner이다.
+
 	*p = 'A';	// p.operator*() = 'A';
 	++p;		// p.operator++(); (후위 연산자도 오버로딩 가능하다)
 	*p = 'B';
@@ -89,6 +90,7 @@ int main()
 	*p = 'C';
 	//++p;
 	*p = '\n';
+
 	// 참고로 cout 은 
 	// 1. 데이터가 들어올 때마다 커서가 자동으로 전진++을 하지 않아도 된다.
 	// 2. 쓰기만 하는 스트림이기 때문에 *를 붙이지 않아도 된다.
@@ -126,7 +128,9 @@ int main()
 	}*/
 
 	// 사용자 정의 rbegin(), rend(), *rebegin(), operator++ 등 구현하기
-	// rend()와 rebegin()이 반환하는 객체의 타입을 구성한다.(특수하게)
+	// rend()와 rebegin()이 반환하는 객체의 타입을 구성한다. (특수하게)
+
+
 	// ★ 반복자는 클래스로 코딩한다.
 	STRING s3{ "2025 05 13" };
 
@@ -158,7 +162,7 @@ template<class Iterator>
 void f(Iterator i)
 {
 	// 어떤 종류의 반복자인지 출력
-	cout << "의 반복자 - " << typeid(Iterator::iterator_category).name() << endl;;
+	cout << typeid(i).name() << "의 반복자 category - " << typeid(Iterator::iterator_category).name() << endl;;
 }
 int main()
 {
@@ -179,7 +183,7 @@ int main()
 
 	// 5.
 	f(forward_list<int>::const_iterator{});
-	
+
 }
 #endif 
 

@@ -142,12 +142,12 @@ char* STRING::end() const
 	return _p.get() + _len; // == return &_p[_len];
 }
 
-STRING_Reverse_Iterator STRING::rbegin() const
+STRING::STRING_Reverse_Iterator STRING::rbegin() const
 {
 	return STRING_Reverse_Iterator{ _p.get() + _len };
 }
 
-STRING_Reverse_Iterator STRING::rend() const
+STRING::STRING_Reverse_Iterator STRING::rend() const
 {
 	return _p.get();
 	// 같은 의미이다. return STRING_Reverse_Iterator{ _p.get() };

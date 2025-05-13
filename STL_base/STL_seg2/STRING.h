@@ -14,31 +14,33 @@
 
 
 
-// 반복자 어댑터
-class STRING_Reverse_Iterator {
-public:
-	STRING_Reverse_Iterator(char* p) :_p(p) {}
-	char operator *()
-	{
-		return *(_p - 1);
-	}
-	void operator ++()
-	{
-		--_p;
-	}
-
-	// end와의 비교를 위해 필수 불가결
-	bool operator==(const STRING_Reverse_Iterator& rhs) const
-	{
-		return _p == rhs._p;
-	}
-
-
-private:
-	char* _p;
-};
 
 class STRING {
+
+	// 반복자 어댑터
+	class STRING_Reverse_Iterator {
+	public:
+		STRING_Reverse_Iterator(char* p) :_p(p) {}
+		char operator *()
+		{
+			return *(_p - 1);
+		}
+		STRING_Reverse_Iterator& operator ++()
+		{
+			--_p;
+			return *this;
+		}
+
+		// end와의 비교를 위해 필수 불가결
+		bool operator==(const STRING_Reverse_Iterator& rhs) const
+		{
+			return _p == rhs._p; 
+		}
+
+
+	private:
+		char* _p;
+	};
 	
 	// 접근 제한자 (Access Modifier)
 public:
@@ -51,9 +53,8 @@ public:
 	STRING& operator=(const STRING& other);		//2025.04.08
 
 	// 이동생성과 이동할당연산자						// 2025.04.10
-	STRING(STRING&&) noexcept;							// && -> rvalue reference
+	STRING(STRING&&) noexcept;						// && -> rvalue reference
 	STRING& operator=(STRING&&)noexcept;
-
 
 	bool operator==(const STRING& rhs) const;
 	bool operator<(const STRING& rhs) const;	// 2025 05 08
