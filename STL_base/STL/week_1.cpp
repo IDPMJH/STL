@@ -63,7 +63,7 @@ private:
 // 템플릿은 선언과 정의를 동시에 해야함.
 // 알고리즘
 // Generic 프로그래밍 - 자료형에 구애받지않는,
-template<class T> - 3순위
+template<class T>// - 3순위
 void change(T& a, T& b)
 {
 	T temp{ a };

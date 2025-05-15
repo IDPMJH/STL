@@ -143,7 +143,7 @@ int main()
 	// 2. copy_n을 사용 (copy와 차이점) ★★★
 	// std::copy[first, last, dest.begin()) 범위의 모든 요소를 복사
 	// std::copy_n[first, n, dest.begin()] n개를 복사
-	//std::copy_n(std::istream_iterator<int>{in}, arr.size(), arr.begin());
+	std::copy_n(std::istream_iterator<int>{in}, arr.size(), arr.begin());
 
 	// 3. generate 사용
 	//std::generate(arr.begin(), arr.end(), [&in]() {int i; in >> i; return i; });

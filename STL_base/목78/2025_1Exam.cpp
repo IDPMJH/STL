@@ -50,9 +50,11 @@ public:
 		os.write( (char*)t.p.get(), sizeof( int ) * t.num );
 		return os;
 	}
+
 	//[문제2] 답
 	friend istream& operator>>(istream& is,Test& t) {
 		is.read((char*)&t.num, sizeof(int));
+		t.p.release();	// 메모리 해제
 		t.p = make_unique<int[]>(t.num);
 		is.read((char*)t.p.get(), sizeof(int) * t.num);
 		return is;
@@ -95,6 +97,8 @@ int main( )
 	}
 
 
+
+
 	//-------------------------------------------------------------------------
 	// [문제 2] 다운받은 "시험.dat"에는 Test 객체 2'000개가 저장되어 있다.
 	// 파일은 binary mode로 열었다.
@@ -111,6 +115,21 @@ int main( )
 
 
 
+	// 문제 2 답
+	// 1. Test의 멤버함수
+	// 1-1. friend istream& operator>>(istream& is, Test& t) { ... }
+	// 2. 컨테이너
+	// 2-1. 
+	array<Test,2000> a;
+	// 3. 읽기
+	// 3-1. 
+	for (Test& t : a) 
+	{ 
+		in >> t; 
+	}
+	// 4. show() 호출
+	// 4-1. 
+	a.back().show();
 
 
 
@@ -187,20 +206,20 @@ int main( )
 	//-------------------------------------------------------------------------
 
 
-	// [문제 5 답]
-	long long sum{};
-	long long count{};
-	int i{};
-	for (i = numeric_limits<int>::min(); i < numeric_limits<int>::max(); ++i)
-	{
-		sum += to_string(i).length();
-		++count;
-	}
-	sum += numeric_limits<int>::max();
-	++count;
-	cout << "합계 - " << sum << endl;
-	/*cout << "평균 - " << 
-		format("{:.2f}",(double)sum / (numeric_limits<unsigned int>::max() + 1)) << endl;*/
+	//// [문제 5 답]
+	//long long sum{};
+	//long long count{};
+	//int i{};
+	//for (i = numeric_limits<int>::min(); i < numeric_limits<int>::max(); ++i)
+	//{
+	//	sum += to_string(i).length();
+	//	++count;
+	//}
+	//sum += numeric_limits<int>::max();
+	//++count;
+	//cout << "합계 - " << sum << endl;
+	///*cout << "평균 - " << 
+	//	format("{:.2f}",(double)sum / (numeric_limits<unsigned int>::max() + 1)) << endl;*/
 
-	println("평균 - {:.2f}", (double)sum / (numeric_limits<unsigned int>::max() + 1));
+	//println("평균 - {:.2f}", (double)sum / (numeric_limits<unsigned int>::max() + 1));
 }
