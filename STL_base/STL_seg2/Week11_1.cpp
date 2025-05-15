@@ -1,4 +1,4 @@
-#define Prac 4
+#define Prac 3
 
 #include "STRING.h"
 
@@ -115,11 +115,14 @@ int main()
 	//	cout << *a;
 
 	char s2[]{ "2025 05 13" };
+	unique_ptr<char[]> p{ s2 };
 	/*for (int i = sizeof(s2); i != 0; --i)
 	{
 		cout << s2[i - 1];
 	}*/
 
+
+	
 	// spanÀ» ÀÌ¿ë
 	/*span<char> a{ s2 };
 	for (auto i = a.rbegin(); i != a.rend(); ++i)
