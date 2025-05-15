@@ -145,7 +145,6 @@ int main()
 
 
 }
-
 #elif Prac == 4
 #include <iostream>
 #include <array>
@@ -165,7 +164,8 @@ template<class Iterator>
 void f(Iterator i)
 {
 	// 어떤 종류의 반복자인지 출력
-	cout << typeid(i).name() << "의 반복자 category - " << typeid(Iterator::iterator_category).name() << endl;;
+	cout << "[" << typeid(i).name() << "의 반복자 category]  " << endl << typeid(Iterator::iterator_category).name() << endl;
+	cout << endl;
 }
 int main()
 {
@@ -186,7 +186,6 @@ int main()
 
 	// 5.
 	f(forward_list<int>::const_iterator{});
-
 }
 #endif 
 

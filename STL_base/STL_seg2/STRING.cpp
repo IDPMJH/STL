@@ -132,12 +132,13 @@ size_t STRING::size() const
 	return _len;
 }
 
-char* STRING::begin() const
+STRING::STRING_Iterator STRING::begin() const
 {
 	return _p.get();	// == return &_p[0];
+
 }
 
-char* STRING::end() const
+STRING::STRING_Iterator STRING::end() const
 {
 	return _p.get() + _len; // == return &_p[_len];
 }
@@ -220,8 +221,6 @@ std::istream& operator>>(std::istream& is, STRING& str)
 	return is;
 	//is.read(str._p.get(), str._len);
 }
-
-
 
 size_t STRING::gid{};
 

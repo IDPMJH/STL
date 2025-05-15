@@ -4,18 +4,53 @@
 // STRING.h - std::string가 유사한 클래스이다.
 // STL의 container 로 동작할 수 있게 코딩해 나간다.
 // 2025.04.08 - 시작
-// >> 연산자								2025 / 05 / 01
-// < 연산자								2025 / 05 / 08
-// begin(), end()						2025 / 05 / 13
-// 역방향 반복자는 반드시 클래스로 제공	2025 / 05 / 13
+// >> 연산자								2025 / 05.01
+// < 연산자								2025 / 05.08
+// begin(), end()						2025 / 05.13
+// 역방향 반복자는 반드시 클래스로 제공	2025 / 05.13
+// 반복자도 당연히 클래스로 코딩해야 한다. 2025 / 05.15
 // ===============================================================
+
+//iterator_traits
+//provides uniform interface to the properties of an iterator
+
 #pragma once
 #include <memory>
 
 
 
 
+
 class STRING {
+	class STRING_Iterator {
+		// 표준 반복자는 다음 다섯가지 물음에 대답할 수 있어야 한다. - 2025 05 15
+	public:
+		// queory에 응답할 수 있는 응답이므로 public:
+		using difference_type = ptrdiff_t;
+		using value_type = char;
+		using pointer = char*;
+		using reference = char&;
+		using iterator_category = std::random_access_iterator_tag;
+
+	public:
+		STRING_Iterator(char* p) : _p{ p } {}
+
+
+		// 반복자라면 최소한 다음 기능을 제공해야 반복자이다.
+		char operator*()const {
+			return *_p;
+		}
+		char* operator++() {
+			return ++_p;
+		}
+		bool operator==(const STRING_Iterator& rhs)const {
+			return _p == rhs._p;
+		}
+	private:
+		char* _p;
+
+	};
+	
 
 	// 반복자 어댑터
 	class STRING_Reverse_Iterator {
@@ -62,8 +97,8 @@ public:
 
 	// 인터페이스 함수들
 	size_t size() const;
-	char* begin() const;
-	char* end() const;
+	STRING_Iterator begin() const;
+	STRING_Iterator end() const;
 	STRING_Reverse_Iterator rbegin() const;
 	STRING_Reverse_Iterator rend() const;
 
