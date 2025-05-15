@@ -1,4 +1,4 @@
-// STL 과제 구현 - Week11_1.cpp
+// STL 과제 구현
 #include <iostream>
 #include <array>
 #include <algorithm>
@@ -31,10 +31,26 @@ public:
 		std::print("\n");
 	}
 
+	// p가 가리키는 메모리의 char[]를 정렬하는 멤버 변수
+	void sort_chars_in_p() {// 혹시 모르니
+		if (p && num > 0) { // p가 유효하고 num이 0보다 큰 경우에만 정렬 수행
+			std::sort(p.get(), p.get() + num);
+		}
+	}
+
+	// p가 가리키는 char 배열에서 특정 문자의 개수를 반환합니다.
+	size_t count_char_in_p(char target_char) const {
+		if (p && num > 0) { // p가 유효하고 num이 0보다 큰 경우에만 개수 세기 수행
+			return std::count(p.get(), p.get() + num, target_char);
+		}
+		return 0; // p가 유효하지 않거나 num이 0인 경우 0 반환
+	}
+
 	// Getter
 	const int get_score() const { return score; }
 	const std::string& get_name() const { return name; }
 	const size_t get_id() const { return id; }
+	const size_t get_num() const { return num; }
 
 
 
@@ -55,9 +71,9 @@ public:
 	// 과제에서 표현 된 형식을 보면, private를 의도하신 것 같다...? => Getter를 사용해야 하나...? 단! Setter는 사용하지 말 것
 private:
 	std::string name;				// 이름, 길이[3, 15], ['a', 'z']로만 구성
-	int score;					// 점수
-	size_t id;					// 아이디, 겹치는 아이디 있을 수 있음
-	size_t num;					// free store에 확보한 바이트 수
+	int score;						// 점수
+	size_t id;						// 아이디, 겹치는 아이디 있을 수 있음
+	size_t num;						// free store에 확보한 바이트 수
 	std::unique_ptr<char[]> p;		// free store에 확보한 메모리
 
 };
@@ -109,18 +125,18 @@ int main() {
 
 		// 모든 Player의 평균 점수 계산
 		// accumulate 함수 활용
-		// 병렬 버전으로 reduce도 활용 가능하나, 활용법은 탐구 필요
+		// 병렬 버전으로 reduce도 활용 가능하나, 활용법은 탐구해 봐야 할 것 같다.
 
 		long long total_score = std::accumulate(players.begin(), players.end(), 0LL,
 			[](long long sum, const Player& p) {
 				return sum + p.get_score();
 			});
 
-		double average_score = static_cast<double>(total_score) / PLAYER_COUNT;
+		double 평균점수 = static_cast<double>(total_score) / PLAYER_COUNT;
 
 		// 평균 점수 출력
 		std::print("\n--- Player 점수 통계 ---\n");
-		std::print("평균 점수: {:.2f}\n", average_score);
+		std::print("평균 점수: {:.2f}\n", 평균점수);
 	}
 
 
@@ -129,10 +145,10 @@ int main() {
 	//	 파일에는 id가 같은 Player 객체의 이름과 아이디를 한 줄 씩 기록한다. 
 	//   - 어떻게 같은 id를 찾았는지 보고서에 설명하라.
 	{
-		// 중복된 id를 가진 Player들만 필터링
-		std::vector<std::pair<size_t, std::vector<size_t>>> duplicates;
+		// 중복된 id를 가진 Player들만 필터링하기 위한 벡터
+		std::vector<std::pair<size_t, std::vector<size_t>>> 중복되는녀석들;
 		{
-			// 1단계: id를 키로, 해당 id를 가진 Player들의 인덱스 목록을 값으로 하는 맵 생성
+			// 1단계: id를 [키]로, 해당 id를 가진 Player들의 인덱스 목록을 [값]으로 하는 맵 생성
 			std::unordered_map<size_t, std::vector<size_t>> id_map;
 
 			// 모든 Player를 순회하며 id별로 그룹화
@@ -141,30 +157,30 @@ int main() {
 				id_map[player_id].push_back(i);
 			}
 
-			// 2단계: 중복된 id를 가진 항목만 필터링 (ranges 사용)
+			// 2단계: 중복된 id를 가진 항목만 필터링 (ranges 사용 ver.)
 			auto is_duplicate = [](const auto& pair) {
 				return pair.second.size() > 1;
 				};
 
 			// ranges를 사용한 필터링
 			for (const auto& [id, indices] : id_map | std::views::filter(is_duplicate)) {
-				duplicates.push_back({ id, indices });
+				중복되는녀석들.push_back({ id, indices });
 			}
 		}
 
 		// 중복 id를 가진 Player 수 계산
-		size_t duplicate_count = std::accumulate(duplicates.begin(), duplicates.end(), 0ULL,
+		size_t duplicate_count = std::accumulate(중복되는녀석들.begin(), 중복되는녀석들.end(), 0ULL,
 			[](size_t sum, const auto& pair) { return sum + pair.second.size(); });
 
 		// 결과 출력
 		std::print("\n--- 같은 ID를 가진 Player 통계 ---\n");
 		std::print("같은 ID를 가진 Player 수: {}\n", duplicate_count);
-		std::print("중복된 ID 종류: {}\n", duplicates.size());
+		std::print("중복된 ID 종류: {}\n", 중복되는녀석들.size());
 
 		// 파일에 기록
 		std::ofstream out{ "같은아이디.txt" };
 		if (out) {
-			for (const auto& [id, indices] : duplicates) {
+			for (const auto& [id, indices] : 중복되는녀석들) {
 				for (size_t idx : indices) {
 					const Player& p = players[idx];
 					out << p.get_name() << " " << p.get_id() << "\n";
@@ -176,6 +192,42 @@ int main() {
 			std::print("파일을 열 수 없습니다.\n");
 		}
 	}
+
+
+	// 4. Player의 멤버 p가 가리키는 메모리에는 파일에서 읽은 num개의 char가
+	//    저장되어 있다.
+	//    메모리에 저장된 char를 오름차순으로 정렬하라.
+	//    'a'가 10글자 이상인 Player의 개수를 화면에 출력하라.
+	//    - 어떻게 정렬하였고 어떻게 개수를 세었는지 명시하라
+	{
+		std::print("\n--- 4. Player 'p' 멤버 정렬 및 'a' 개수 카운트 ---\n");
+
+		size_t 열명보다많은플레이어 = 0;
+
+		// 모든 Player 객체에 대해 반복
+		for (size_t i = 0; i < PLAYER_COUNT; ++i) {
+			players[i].sort_chars_in_p(); // 각 Player의 p 멤버 char 배열 정렬
+			if (players[i].count_char_in_p('a') >= 10) {
+				++열명보다많은플레이어;
+			}
+		}
+
+		std::print("'a'가 10글자 이상인 Player의 개수: {}\n", 열명보다많은플레이어);
+		std::print("\n[4번 항목 설명]\n");
+		std::print("정렬 방법:\n");
+		std::print("각 Player 객체의 멤버 변수 p (std::unique_ptr<char[]>)가 가리키는 메모리에 저장된 num개의 char 문자를 오름차순으로 정렬했습니다. ");
+		std::print("이를 위해 C++ 표준 라이브러리 <algorithm>에 정의된 std::sort 함수를 사용했습니다. ");
+		std::print("구체적으로 Player 클래스에 추가한 sort_chars_in_p() 멤버 함수 내에서 std::sort(p.get(), p.get() + num); 와 같이 호출하여 정렬을 수행했습니다. ");
+		std::print("std::sort는 일반적으로 평균 O(N log N)의 시간 복잡도를 가지는 효율적인 정렬 알고리즘(예: IntroSort)으로 구현됩니다[3][5].\n\n");
+
+		std::print("개수 세는 방법:\n");
+		std::print("문자열이 정렬된 후, 각 Player 객체의 p 멤버가 가리키는 char 배열에서 'a' 문자의 개수를 세었습니다. ");
+		std::print("이를 위해 C++ 표준 라이브러리 <algorithm>에 정의된 std::count 함수를 사용했습니다. ");
+		std::print("구체적으로 Player 클래스에 추가한 count_char_in_p('a') 멤버 함수 내에서 std::count(p.get(), p.get() + num, 'a'); 와 같이 호출하여 'a'의 개수를 계산했습니다. ");
+		std::print("이후, 'a'의 개수가 10개 이상인 Player 객체의 총 수를 집계하여 화면에 출력했습니다[4].\n");
+	}
+
+
 
 
 
