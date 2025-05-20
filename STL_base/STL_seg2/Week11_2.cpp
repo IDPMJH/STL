@@ -1,5 +1,7 @@
 #define Prac 7
 
+
+
 #include "STRING.h"
 
 using namespace std;
@@ -37,7 +39,7 @@ int main()
 
 	f(forward_list<int>{}.begin());
 	f(list<STRING>::iterator{});
-	
+
 	f(deque<int>::reverse_iterator{});
 
 }
@@ -129,7 +131,7 @@ void f(Iterator i)
 int main()
 {
 	f(vector<int>{}.begin());
-	
+
 	f(deque<int>{}.begin());
 }
 
@@ -215,11 +217,33 @@ int main()
 
 int main()
 {
-	STRING s{ "2025 5 15" };
+	STRING s{ "2025 5 20" };
 
-	sort(s.begin(), s.end());
+	sort(s.begin(), s.end(), greater<>());
+
+	// 람다도 가능
+	/*sort(s.begin(), s.end(), [](char a, char b) {
+		return a > b;
+		});*/
 
 	cout << s << endl;	// "  0122555"
+
+	// 이걸로 Random Access Iterator인지 걸러내지는 못함
+	//template< class RandomIt >
+	//void sort(RandomIt first, RandomIt last);
+
+
+	// 대신 ranges::sort사용
+	// RandomAcccessIterator가 필요로 하는 조건들은 연산자 오버로딩 등 많은 조건이 있음
+	// 이터레이터의 대소비교가 가능
+	// => 항상 이전 이터레이터보다 다음 이터레이터의 메모리 주소가 크기 때문?
+
+	char* a{};
+	char* b{};
+	auto d = a <=> b;
+	cout << typeid(d).name();
+
+	
 }
 #endif 
 

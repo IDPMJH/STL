@@ -134,13 +134,13 @@ size_t STRING::size() const
 
 STRING::STRING_Iterator STRING::begin() const
 {
-	return _p.get();	// == return &_p[0];
+	return static_cast<STRING_Iterator>(_p.get());	// == return &_p[0];
 
 }
 
 STRING::STRING_Iterator STRING::end() const
 {
-	return _p.get() + _len; // == return &_p[_len];
+	return static_cast<STRING_Iterator>(_p.get() + _len); // == return &_p[_len];
 }
 
 STRING::STRING_Reverse_Iterator STRING::rbegin() const

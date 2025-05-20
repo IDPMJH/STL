@@ -9,6 +9,7 @@
 // begin(), end()						2025 / 05.13
 // 역방향 반복자는 반드시 클래스로 제공	2025 / 05.13
 // 반복자도 당연히 클래스로 코딩해야 한다. 2025 / 05.15
+// 반복자라면 제공해야 할 연산자를 오버로딩2025 / 05.20
 // ===============================================================
 
 //iterator_traits
@@ -22,6 +23,7 @@
 
 
 class STRING {
+public:
 	class STRING_Iterator {
 		// 표준 반복자는 다음 다섯가지 물음에 대답할 수 있어야 한다. - 2025 05 15
 	public:
@@ -33,24 +35,52 @@ class STRING {
 		using iterator_category = std::random_access_iterator_tag;
 
 	public:
-		STRING_Iterator(char* p) : _p{ p } {}
+		STRING_Iterator() = default;
+		explicit STRING_Iterator(char* p) : _p{ p } {}
 
 
 		// 반복자라면 최소한 다음 기능을 제공해야 반복자이다.
-		char operator*()const {
+		// 05.15
+		// 05.20 이걸 복사가 아니라 계속 참조(&)할 수 있도록 해준다.(메모리 접근)
+		char& operator*()const {
 			return *_p;
 		}
-		char* operator++() {
-			return ++_p;
+		STRING_Iterator operator++() {
+			return static_cast<STRING_Iterator>(++_p);
 		}
 		bool operator==(const STRING_Iterator& rhs)const {
 			return _p == rhs._p;
 		}
+
+		// 반복자가 만족해야할 조건, 연산자들 - 05.20
+		// _p가 변할 이유가 없기 떄문에 const로 선언
+		//
+		difference_type operator-(const STRING_Iterator& rhs) const {
+			return _p - rhs._p;
+		}
+		STRING_Iterator operator--() {
+			return static_cast<STRING_Iterator>(--_p);
+		}
+		STRING_Iterator operator+(const difference_type n) const {
+			return static_cast<STRING_Iterator>(_p + n);
+		}
+
+		// strong_ordering 을 반환할 때  sort하기 위함
+		STRING_Iterator operator-(const difference_type n) const {
+			return static_cast<STRING_Iterator>(_p - n);
+		}
+
+		auto operator <=>(const STRING_Iterator& rhs) const {
+			return _p <=> rhs._p;
+		}
+
+		// 05.20
+		// 기본생성자를 만들 때는 여기서 세팅하라
 	private:
-		char* _p;
+		char* _p{};
 
 	};
-	
+
 
 	// 반복자 어댑터
 	class STRING_Reverse_Iterator {
@@ -69,14 +99,14 @@ class STRING {
 		// end와의 비교를 위해 필수 불가결
 		bool operator==(const STRING_Reverse_Iterator& rhs) const
 		{
-			return _p == rhs._p; 
+			return _p == rhs._p;
 		}
 
 
 	private:
 		char* _p;
 	};
-	
+
 	// 접근 제한자 (Access Modifier)
 public:
 	STRING(const char* str);
@@ -116,9 +146,11 @@ private:
 
 	// 2025.04.08
 	static size_t gid;
-	
-	
+
+
 };
+
+
 
 
 
