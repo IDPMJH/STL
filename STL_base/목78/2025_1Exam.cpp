@@ -151,7 +151,8 @@ int main( )
 	// sort( x.begin( ), x.end( ) );		// num 기준 오름차순으로 정렬
 
 	// [문제3 답]
-	// sort는 a.begin()에서 1. 정렬할 타입 정보를 알 수 있다.
+	// sort는 a.begin()에서 
+	// 1. 정렬할 타입 정보를 알 수 있다.
 	// 1-1. less<type>{};	기본 정렬에 사용할 함수객체를 이용하여 정렬한다.
 	// 1-2. operator<(const types& lhs,const types& rhs)를 사용하여 정렬한다.
 	// 1-3. bool Test::operator(const type& rhs)로 정렬한다.
