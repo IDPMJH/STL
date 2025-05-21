@@ -36,7 +36,7 @@ public:
 
 	public:
 		STRING_Iterator() = default;
-		explicit STRING_Iterator(char* p) : _p{ p } {}
+		STRING_Iterator(char* p) : _p{ p } {}
 
 
 		// 반복자라면 최소한 다음 기능을 제공해야 반복자이다.

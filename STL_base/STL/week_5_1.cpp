@@ -117,12 +117,15 @@ int main()
 	//public:
 	//	bool operator()(int a, int b) { return a > b; }
 	//};
-	// 실제 코드 - auto에 커서 대보기
+	// 실제 코드 - 
+	// 에 커서 대보기
 	auto Dog = [](int a, int b) {
 		return a > b;	// 반환 형식은 추론을 통해 bool로 결정
 		};
 
 	sort(a.begin(), a.end(), Dog); // Dog == predicate : 조건자
+
+
 
 	//sort(a.begin(), a.end(), Dog)
 	//{

@@ -25,7 +25,7 @@ extern bool inspect;
 //			return a;
 //	}
 //	return end;
-//}
+//} 
 
 // 일반 타입이 들어갈 수 있기 때문에, 반드시 class 키워드를 붙여야 한다.
 template<class Iterator, class Value>
@@ -119,7 +119,7 @@ void my_copy(srcIterator begin, srcIterator end, destIterator dest)
 {
 	while (begin != end) {
 		*dest = *begin;
-		// 값을 넣을 때 push_back함수를 이용하기 때문에 back_inserter이다.
+		// 값을 대입할 때 push_back함수가 호출되기 때문에 back_inserter이다.
 		// 이때 메모리 주소가 이전되면 반복자가 무효화되어야 하는데, 내부에서
 		// 어댑터를 사용하는 등?의 동작을 하기 때문에 사기꾼이라고 할 수 있다ㅋㅋ
 		++dest, ++begin;
@@ -148,6 +148,36 @@ int main()
 		cout << c;
 
 }
+
+
+// 실제 Back_inserter Iterator 구조
+_EXPORT_STD template <class _Container>
+//class back_insert_iterator {
+//public:
+//	using iterator_category = output_iterator_tag;
+//	using value_type = void;
+//	using pointer = void;
+//	using reference = void;
+//	// ...
+//
+//	_CONSTEXPR20 back_insert_iterator& operator=(const typename _Container::value_type& _Val) {
+//		container->push_back(_Val);
+//		return *this;
+//	}
+//
+//	_NODISCARD _CONSTEXPR20 back_insert_iterator& operator*() noexcept {
+//		return *this;
+//	}
+//
+// ++할 때 아무것도 안 한다.
+//	_CONSTEXPR20 back_insert_iterator& operator++() noexcept {
+//		return *this;
+//	}
+//
+// 실제로는 컨테이너를 가리킨다.
+//protected:
+//	_Container* container;
+//};
 
 #elif Prac == 4
 #include <iostream>
