@@ -10,6 +10,8 @@
 // 역방향 반복자는 반드시 클래스로 제공	2025 / 05.13
 // 반복자도 당연히 클래스로 코딩해야 한다. 2025 / 05.15
 // 반복자라면 제공해야 할 연산자를 오버로딩2025 / 05.20
+// <=> 연산자 코딩						2025 / 05.22
+// std::less를 특수화					2025 / 05.22		
 // ===============================================================
 
 //iterator_traits
@@ -77,7 +79,7 @@ public:
 		// 05.20
 		// 기본생성자를 만들 때는 여기서 세팅하라
 	private:
-		char* _p{};
+		char* _p{nullptr};
 
 	};
 
@@ -121,9 +123,13 @@ public:
 	STRING(STRING&&) noexcept;						// && -> rvalue reference
 	STRING& operator=(STRING&&)noexcept;
 
+	// 관계 연산자들
 	bool operator==(const STRING& rhs) const;
-	bool operator<(const STRING& rhs) const;	// 2025 05 08
-
+	bool operator<(const STRING& rhs) const;	// 2025.05.08
+	// 2025.05.22 사전식 비교
+	// 모든 관계 연산자를 대체하는 three-way comparison operator
+	//std::strong_ordering operator<=>(const STRING& rhs) const;
+	//auto operator<=> (const STRING& rhs) const;
 
 	// 인터페이스 함수들
 	size_t size() const;

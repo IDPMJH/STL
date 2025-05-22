@@ -127,6 +127,18 @@ bool STRING::operator<(const STRING& rhs) const
 }
 
 
+
+
+
+//auto STRING::operator<=>(const STRING& rhs) const
+//{
+//	if (lhs.x < rhs.x or (lhs.x == rhs.x and lhs.y < rhs.y))
+//		return std::strong_ordering::less;
+//	if (lhs.x > rhs.x or (lhs.x == rhs.x and lhs.y > rhs.y))
+//		return std::strong_ordering::greater;
+//	return std::strong_ordering::equivalent;
+//}
+
 size_t STRING::size() const
 {
 	return _len;
