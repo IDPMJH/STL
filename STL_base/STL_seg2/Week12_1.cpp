@@ -121,7 +121,7 @@ void my_copy(srcIterator begin, srcIterator end, destIterator dest)
 		*dest = *begin;
 		// 값을 대입할 때 push_back함수가 호출되기 때문에 back_inserter이다.
 		// 이때 메모리 주소가 이전되면 반복자가 무효화되어야 하는데, 내부에서
-		// 어댑터를 사용하는 등?의 동작을 하기 때문에 사기꾼이라고 할 수 있다ㅋㅋ
+		// 어댑터를 사용하는 등?의 동작을 하기 때문에 사기꾼이라고 할 수 있다
 		++dest, ++begin;
 	}
 }

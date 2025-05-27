@@ -127,6 +127,19 @@ bool STRING::operator<(const STRING& rhs) const
 }
 
 
+
+
+
+//bool STRING::operator<=>(const STRING& rhs) const
+//{
+//	if (lhs.x < rhs.x or (lhs.x == rhs.x and lhs.y < rhs.y))
+//		return std::lexicographical_compare(_p.get(), _p.get() + _len,
+//			rhs._p.get(), rhs._p.get() + rhs._len);
+//	if (lhs.x > rhs.x or (lhs.x == rhs.x and lhs.y > rhs.y))
+//		return std::strong_ordering::greater;
+//	return std::strong_ordering::equivalent;
+//}
+
 size_t STRING::size() const
 {
 	return _len;
