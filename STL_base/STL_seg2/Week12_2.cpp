@@ -90,16 +90,13 @@ int main()
 // Associative Container
 // 데이터 추가: O(log N) 시간복잡도를 가짐 - 이분탐색
 // 데이터 찾기: O(log N)
-// [1]. set, 멤버 : key, Compare, Allocator로 구성
+// [set] 멤버 : key, Compare, Allocator로 구성
 // std::set is an associative container that 
 // contains a sorted set of 'unique' objects of type Key.
 // 'uniqueness' is determined by using the equivalence relation.
 // 1. [equivalence], 동등성 ~ equality, 상등성
 // 
 // => !comp(a,b) && !comp(b,a) a와 b의 순서를 확정할 수 없는 경우, equivalence하다.
-// 
-// 
-// 2. map
 //========================================================================
 
 int main()
@@ -223,6 +220,7 @@ struct std::less<STRING> {
 
 int main()
 {
+	less<int> a;
 	// 함수 객체functor 사용
 	set <STRING,fobj> s{ "333","2222", "11111","44","5" };
 

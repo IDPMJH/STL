@@ -129,7 +129,7 @@ public:
 	// 2025.05.22 사전식 비교
 	// 모든 관계 연산자를 대체하는 three-way comparison operator
 	//std::strong_ordering operator<=>(const STRING& rhs) const;
-	//auto operator<=> (const STRING& rhs) const;
+	//bool operator<=> (const STRING& rhs) const;
 
 	// 인터페이스 함수들
 	size_t size() const;
