@@ -48,6 +48,9 @@
     <ClCompile Include="Week13_1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Week13_2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="STRING.h">

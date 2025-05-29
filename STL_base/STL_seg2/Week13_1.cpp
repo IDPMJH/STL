@@ -87,7 +87,7 @@ int main()
 		cout << "찾을 단어를 입력하세요: ";
 		cin >> str;
 
-		// set에 내장된 find를 사용하여 이진탐색을 실시한다.
+		// set에 내장된 find,그보다 더 나은 contains를 사용하여 이진탐색을 실시한다.
 
 		if (s.contains(str))
 			cout << str << "를(을) 찾았습니다." << endl;
@@ -218,7 +218,7 @@ int main()
 #include <ranges>
 // =======================================================================
 //[문제] [1] 여기에 있는 모든 단어를 multiset<STRING>에 저장하라
-// [2]
+// [2] 모두 몇 단어인지 화면에 출력하라.
 //========================================================================
 
 int main()
@@ -227,10 +227,19 @@ int main()
 	if (not in)
 	{
 		cout << "파일 읽기 실패" << endl;
-		return 20250527;
+		return 20250529;
 	}
 
+	// sequential 하지 않다.
 	multiset<STRING> ms{ istream_iterator<STRING>{in},{} };
+	
+	// sequential하다.
+	// #include <vector>
+	//vector<STRING> ms{ istream_iterator<STRING>{in},{} };
+
+	// 컨테이너의 구조에 따라 그 사용 목적이 달라진다.
+	
+	
 
 	set<STRING> s{ ms.begin(),ms.end() };
 	
@@ -246,11 +255,37 @@ int main()
 		STRING searchStr;
 		cin >> searchStr;
 
-		cout << searchStr << " 단어의 개수 : "<< ms.count(searchStr) << endl;
-		//ms.count에 관련해서,
+		/*cout << searchStr << " 단어의 개수 : "<< ms.count(searchStr) << endl;*/
+		//ms.count에 관련해서, multiset에 특화된 알고리즘을 사용한다.
 		// 그 중복되는 단어들은 lower bound, upper bound를 통해 관리된다.
 		// 이는 begin과 end구조와 비슷하다.
+
+		// 좀 더 원형적인 코드
+		// [문제 변형]
+		// 입력한 단어가 추가되어도 multiset의 정렬 상태가 바뀌지 않을
+		// 위치를 알고 싶다.
+		// auto로 많은 반환 값을 받는 법 
+		// ★★★ structured binding
+		auto [lowerbound,upperbound] = ms.equal_range(searchStr);
+		if (lowerbound == upperbound) {
+			cout << "찾는 단어가 없습니다." << endl;
+		}
+		else {
+			cout << distance(lowerbound, upperbound) << endl;
+		}
 	}
+
+
+	// 특정 단어의 개수를 셀 때, 벡터에서 count_if를 사용하면
+	// O(n)시간 복잡도를 가지지만
+
+	// multiset.count()를 사용하면 컨테이너 크기의 log, + 찾은 원소 개수
+	// 만큼, 즉 O(log n)알고리즘을 가진다.
+
+	// set과 multiset에 삽입, 삭제 등의 동작을 할 때, 추가되는 위치 등을 고려
+	// 어떻게 들어갈 것인가? - 정렬 순서를 깨지 않는 위치
+	// > begin()과 end() (= 마지막 원소 다음 위치)까지 들어가도 아무 상관 없음
+	// > 상한선과 하한선
 }
 #endif 
 
