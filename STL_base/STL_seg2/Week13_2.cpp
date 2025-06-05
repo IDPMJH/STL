@@ -1,4 +1,4 @@
-#define Prac 3
+#define Prac 4
 
 #include "STRING.h"
 
@@ -152,31 +152,63 @@ int main()
 	while (in >> str)
 		wordNum[str]++;
 
-	/*multiset<STRING> ms{ istream_iterator<STRING>{in},{} };
-
-	
-
-	for (const auto& str : ms)
-	{
-		wordNum[str] = ms.count(str);
-	}*/
-
-	for (const auto& [str, num] : wordNum)
+	for (const auto& [num, str] : wordNum)
 	{
 		cout << str << " - " << num << endl;
 		//println("{:20} - {:} ", str.begin(), num);
 	}
+	
+
+	
+
+
+
 }
 
 #elif Prac == 4
 #include <iostream>
+#include <set>
+#include <vector>
+#include <algorithm>
+#include <fstream>
+#include <map>
+#include <ranges>
+#include <print>
 
 // =======================================================================
-//[문제] 
+//[문제] [4] 가장 많이 사용된 단어부터 단어와 횟수를 모두 출력하자.
 //========================================================================
 
 int main()
 {
+	ifstream in{ "이상한 나라의 앨리스.txt" };
+	if (not in)
+	{
+		cout << "파일 읽기 실패" << endl;
+		return 20250529;
+	}
+
+	STRING str;
+	map<STRING, size_t> wordNum{};
+
+	while (in >> str)
+		wordNum[str]++;
+
+	multimap<size_t, STRING, greater<size_t>> numWord{};
+	for (const auto& [str, count] : wordNum)
+	{
+		// 멀티 맵은 []연산자 지원 x 원래 맵에서도 이렇게 동작한다.
+		// 키값이 여러개이기 때문
+		numWord.insert(pair<size_t, STRING>(count, str));
+		//numWord.insert(make_pair(count, str));
+		// => 페어 형식 자동 변환
+	}
+
+	for (const auto& [num, str] : numWord)
+	{
+		cout << num << " - " << str << endl;
+		//println("{:20} - {:} ", str.begin(), num);
+	}
 
 }
 #endif 
