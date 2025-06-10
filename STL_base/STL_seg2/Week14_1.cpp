@@ -155,9 +155,8 @@ int main()
 	// 왜 오류?
 	// 1. Hash를 제공하여야 한다.
 	// 2. equal_to  : 만들어 놓음 (== 으로
-
-	// 해결 방안
-	// 이미 존재하는 hasher에 STRING값을 std::string으로 바꾸어 넣으면 된다.
+	
+	
 	unordered_set<STRING,hash<STRING>,equal_to<STRING>> us{ "1","22","333","4444" };
 
 	for (const STRING& s : us)
@@ -178,12 +177,22 @@ int main()
 			cout << endl;
 		}
 
+		// 오해하지 말아야 할 것
+		cout << "4444 - " << hash<string>{}("4444")<< endl;
+		cout << "22 - " << hash<string>{}("22")<< endl;
+		// 두 해쉬 값은 다르지만, 
+		// 버킷의 개수가 한정적이기 때문에 같은 버킷에 들어가는 것
+
 		cout << "추가할 STRING - ";
 		STRING s;
 		cin >> s;
 		us.insert(s);
 
 		// load_balancing
+
+
+		
+
 	}
 }
 
