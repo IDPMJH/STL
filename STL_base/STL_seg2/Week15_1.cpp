@@ -284,9 +284,10 @@ int main()
 	ranges::sort(v);
 
 	// Algorithms library
-	//Non - modifying sequence operations
-	//	- Batch operations
-	// range-based for 사용으로 인해 잘 안 쓰임
+	//Non 
+	// - modifying sequence operations
+	// - Batch operations range-based for 사용으로 인해 잘 안 쓰임
+	// 
 	//	- Search operations
 	// all_of => begin 부터 end까지 조건자를 만족하는가
 	// adjacent_find - 인접한 같은 원소 찾기
@@ -295,18 +296,9 @@ int main()
 	// Fold operation은 넘어감
 	//
 	// Modifying sequence operations
-	// 	Copy operations.....Order-changing operations,Sampling operations
+	// Copy operations.....Order-changing operations,Sampling operations
 
 
-	// sorting 관련 알고리즘 이해
-	string s {"2025.06.10"};
-
-	while(true)
-	{
-		cout << s << endl;
-		// 100ms쉬고
-		rotate(s.begin(), s.end(), s.begin() + 1);
-	}
 
 
 
