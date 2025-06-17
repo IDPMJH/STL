@@ -270,8 +270,16 @@ int main()
 #include <list>
 #include <concepts>
 // =======================================================================
-//[문제] 이터레이터 라이브러리 내부의
-// 반복자간의 거리를 재는 distance함수
+//[문제] iterator 라이브러리 내부의
+// 반복자간의 거리를 재는 distance함수를 구현해본다.
+// - 반복자 타입에 따라 다른 연산을 할 수 있다.
+// - 적절한 함수를 호출 => function dispatch
+// - 함수 호출하는 데에 꼬리표를 달아 구분 => tag dispatch
+// ::위 방법 들은 C++ 17이전 방식, 
+// C++17이후는 컴파일러가 조건에 맞지 않는 코드를 제거하는 if constexpr을 사용
+// ::C++ 20부터는
+// - concept을 사용하여 조건을 쉽게 판단할 수 있다.
+// 관련 내용은 교과서 참조
 //========================================================================
 
 
@@ -282,6 +290,7 @@ iterator_traits<Iter>::difference_type my_distance(Iter b, Iter e)
 	// 만일 Iter가 random_access_iterator_tag라면
 	// C++ 20의 concept을 이용하면 판별이 쉽다.
 
+						// concept
 	if constexpr  (random_access_iterator<Iter>)
 	{
 		return e - b;
