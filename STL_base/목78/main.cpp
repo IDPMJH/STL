@@ -23,13 +23,13 @@ using namespace std;
 
 class Test {
 public:
-	Test( ) = default;
+	Test() = default;
 
 	// 저장된 int의 값을 앞에서 부터 7개만 출력
-	void show( ) const {						
+	void show() const {
 		cout << num << " - ";
-		for ( int i = 0; i < 7; ++i )
-			cout << p[ i ] << " ";
+		for (int i = 0; i < 7; ++i)
+			cout << p[i] << " ";
 		cout << endl;
 	}
 
@@ -41,18 +41,18 @@ public:
 
 
 private:
-	size_t num {};				// free-store에 저장한 int의 개수	
-	unique_ptr<int[]> p {};		// num개의 int가 저장되어 있는 contiguous 메모리를 관리하는 포인터
+	size_t num{};				// free-store에 저장한 int의 개수	
+	unique_ptr<int[]> p{};		// num개의 int가 저장되어 있는 contiguous 메모리를 관리하는 포인터
 
 public:
-	friend ostream& operator<<( ostream& os, const Test& t ) {
-		os.write( (char*)&t.num, sizeof(int) );
-		os.write( (char*)t.p.get(), sizeof( int ) * t.num );
+	friend ostream& operator<<(ostream& os, const Test& t) {
+		os.write((char*)&t.num, sizeof(int));
+		os.write((char*)t.p.get(), sizeof(int) * t.num);
 		return os;
 	}
 
 	//[문제2] 답
-	friend istream& operator>>(istream& is,Test& t) {
+	friend istream& operator>>(istream& is, Test& t) {
 		is.read((char*)&t.num, sizeof(int));
 		t.p.release();	// 메모리 해제
 		t.p = make_unique<int[]>(t.num);
@@ -66,18 +66,18 @@ public:
 //-----------------------------------------------------------------------------
 
 //---------
-int main( )
+int main()
 //---------
 {
 	//-----------------------------------------------------------------------------------
 	// [문제 1] 다음 코드를 실행시키면 폴더에 "숫자들" 파일이 생성될 것이다. 
 	// 파일의 크기를 살펴보고 왜 그런지 이유를 정확하게 설명하라.		(20)
 	//-----------------------------------------------------------------------------------
-	
+
 	// 캐리지 리턴ㅇ쩌구
 	{
 		array<int, 100> numbers;
-		iota( numbers.begin( ), numbers.end( ), 1 );
+		iota(numbers.begin(), numbers.end(), 1);
 
 		/*
 		for ( int num : numbers )
@@ -85,13 +85,13 @@ int main( )
 		cout << endl;
 		*/
 
-		ofstream out { "숫자들" };
-		out.write( (char*)numbers.data( ), sizeof( int ) * numbers.size( ) );
+		ofstream out{ "숫자들" };
+		out.write((char*)numbers.data(), sizeof(int) * numbers.size());
 	}
 
 
-	ifstream in { "시험.dat", ios::binary };
-	if ( not in ) {
+	ifstream in{ "시험.dat", ios::binary };
+	if (not in) {
 		cout << "파일을 열 수 없습니다" << endl;
 		return 20250424;
 	}
@@ -120,12 +120,12 @@ int main( )
 	// 1-1. friend istream& operator>>(istream& is, Test& t) { ... }
 	// 2. 컨테이너
 	// 2-1. 
-	array<Test,2000> a;
+	array<Test, 2000> a;
 	// 3. 읽기
 	// 3-1. 
-	for (Test& t : a) 
-	{ 
-		in >> t; 
+	for (Test& t : a)
+	{
+		in >> t;
 	}
 	// 4. show() 호출
 	// 4-1. 
@@ -150,17 +150,6 @@ int main( )
 
 	// sort( x.begin( ), x.end( ) );		// num 기준 오름차순으로 정렬
 
-	// [문제3 답]
-	// sort는 a.begin()에서 
-	// 1. 정렬할 타입 정보를 알 수 있다.
-	// 1-1. less<type>{};	기본 정렬에 사용할 함수객체를 이용하여 정렬한다.
-	// 1-2. operator<(const types& lhs,const types& rhs)를 사용하여 정렬한다.
-	// 1-3. bool Test::operator(const type& rhs)로 정렬한다.
-	// -1,-2,-3 다 없으면 컴파일 오류
-	// 
-	// 2. 정렬할 컨테이너의 시작 주소를 알 수 있음
-	// 
-	// a.back().show();
 
 
 
@@ -175,7 +164,7 @@ int main( )
 	// 모든 객체의 평균값을 화면에 출력하는 코드와 
 	// 화면에 출력된 마지막 객체의 평균값								(10)
 	//-------------------------------------------------------------------------
-	
+
 	// for (Test& t : a)
 	// {
 	//		cout << t.average() << endl;
@@ -223,4 +212,5 @@ int main( )
 	//	format("{:.2f}",(double)sum / (numeric_limits<unsigned int>::max() + 1)) << endl;*/
 
 	//println("평균 - {:.2f}", (double)sum / (numeric_limits<unsigned int>::max() + 1));
+
 }

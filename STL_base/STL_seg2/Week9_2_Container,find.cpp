@@ -192,7 +192,7 @@ int main()
 		cin >> str;
 		// 리스트만의 특별한 방법으로 찾아줄 방법이 있는가? 없으면 표준 알고리즘 사용
 		// cont.find()가 있는가? 없으면 전역 알고리즘 사용
-		// cont.sort()는 지원하기 때문에 이런 유형을 주의,  표준 정렬 알고리즘보다 성능이 좋음
+		// cont.sort()는 지원하기 때문에 이런 유형을 주의, 표준 정렬 알고리즘보다 성능이 좋음
 		auto i = find(cont.begin(), cont.end(), str);
 		if (i != cont.end())
 			cout << "찾았습니다." << endl;

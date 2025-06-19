@@ -286,7 +286,7 @@ int main()
 	// Algorithms library
 	//Non 
 	// - modifying sequence operations
-	// - Batch operations range-based for 사용으로 인해 잘 안 쓰임
+	// - Batch operations,   range-based for 사용으로 인해 잘 안 쓰임
 	// 
 	//	- Search operations
 	// all_of => begin 부터 end까지 조건자를 만족하는가

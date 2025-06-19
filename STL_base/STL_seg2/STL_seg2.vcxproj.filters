@@ -24,40 +24,40 @@
     <ClCompile Include="Template.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week9_1.cpp">
+    <ClCompile Include="Week9_1_list,vector,deque.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week10_2.cpp">
+    <ClCompile Include="Week10_2_find,copy.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week11_1.cpp">
+    <ClCompile Include="Week11_1_Iterator_catergory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week9_2.cpp">
+    <ClCompile Include="Week9_2_Container,find.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week11_2.cpp">
+    <ClCompile Include="Week11_2_Iterator...2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week12_1.cpp">
+    <ClCompile Include="Week12_1_Find.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week12_2.cpp">
+    <ClCompile Include="Week12_2_Iterator_Adaptor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week13_1.cpp">
+    <ClCompile Include="Week13_1_set.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week13_2.cpp">
+    <ClCompile Include="Week13_2_Associative_Container.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week14_1.cpp">
+    <ClCompile Include="Week14_1_Map.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week15_1.cpp">
+    <ClCompile Include="Week15_1_Container_Compare.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Week15_2.cpp">
+    <ClCompile Include="Week15_2_Sorts,Concept.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Week16_1.cpp">
